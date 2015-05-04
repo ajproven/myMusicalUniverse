@@ -25,8 +25,10 @@ CREATE TABLE thread(
 	entry_date TIMESTAMP,
 	content VARCHAR(2000),
 	total_replies INT(5),
+	id_subforum INT(5),
 	CONSTRAINT id_thread_pk PRIMARY KEY (id),
-	CONSTRAINT threadCreator_idUser FOREIGN KEY(id_user) REFERENCES users(id) ON DELETE CASCADE)
+	CONSTRAINT threadCreator_idUser FOREIGN KEY(id_user) REFERENCES users(id) ON DELETE CASCADE,
+	CONSTRAINT id_subforum_fk FOREIGN KEY(id_subforum) REFERENCES subforums(id) ON DELETE CASCADE)
 	ENGINE = InnoDB;
 
 CREATE TABLE product(
