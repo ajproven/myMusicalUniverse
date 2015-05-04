@@ -116,7 +116,7 @@ ENGINE = InnoDB;
 CREATE TABLE subforums(
 id INT(5) AUTO_INCREMENT,
 name VARCHAR(10),
-description VARCHAR(15),
+description VARCHAR(30),
 CONSTRAINT id_subforum_pk PRIMARY KEY (id))
 ENGINE = InnoDB;
 
