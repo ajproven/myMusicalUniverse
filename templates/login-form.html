@@ -1,0 +1,13 @@
+<div class="loginDiv" ng-show="userAction==1">
+	<h3>Login</h3>
+	<form class="login" name="userConnection" ng-submit="userConnection.$valid && myMusicalUniverseSessionCtrl.login()" novalidate>
+	<div id="login_div">
+		<table>
+			<tr><td>Nickname: </td><td><input type="text" id="user" ng-model="pharmacySessionCtrl.user.nickname" ng-pattern="" required/></td></tr>
+			<tr><td>Password: </td><td><input type="password" id="user" ng-model="pharmacySessionCtrl.user.password" required/></td></tr>
+		</table>
+		<input type="submit" class="btn btn-primary pull-left" value="Login"/>
+		<input type="button" class="btn btn-primary pull-left" value="Reset" ng-click="location.reload()"/><br/>
+	</div>
+	</form>
+</div>

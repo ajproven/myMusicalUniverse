@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html ng-app="cookiePopUpApp" xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="shortcut icon" HREF="../logo.jpeg"/>
+		<title>Pharmacy popUpWindow</title>
+		<meta name="description" content="Test module MF6">
+		<meta name="author" content="Alejandro Sales">
+
+		<!--Css-->
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.min.css" />
+		<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+		<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css" />
+		<!-- Angular-->
+		<script src="../js/frameWorks/angular/angular.min.js" type="text/javascript" xml:space="preserve"></script>
+		<script src="../js/frameWorks/angular/ng-currency.js" type="text/javascript" xml:space="preserve"></script>
+		<!-- jQuery-->
+		<script src="../js/frameWorks/jQuery/jQuery.js" type="text/javascript" xml:space="preserve"></script>
+		<script src="../js/frameWorks/jQuery/jquery.min.js" type = "text/javascript"></script>
+		<script src="../js/frameWorks/jQuery/jquery-ui.min.js" type = "text/javascript"></script>
+		<!-- jQuery Cookies management-->
+		<script src="../js/frameWorks/jQuery/jquery-cookie/jquery.cookie.js" type="text/javascript" xml:space="preserve"></script>
+		<script src="../js/model/medicineObj.js" type="text/javascript" xml:space="preserve"></script>
+		<script src="../js/model/diseaseObj.js" type="text/javascript" xml:space="preserve"></script>
+		<script src="../js/control/generalFunctions.js" type="text/javascript" xml:space="preserve"></script>
+		<script src="../js/control/popUpWindow.js" type="text/javascript" xml:space="preserve"></script>
+
+	</head>
+	<body ng-controller="popUpAppCtrl as popUpApp" ng-init="popUpApp.updateDatabase()">
+		<div id="content">
+			<show-all-medicines-data id="showAllMedicinesData"></show-all-medicines-data>
+		</div>
+	</body>
+</html> 
+

@@ -1,12 +1,9 @@
 <?php
-
-
 function cabecera(){
-
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="myMusicalUniverseManagement" lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,50 +12,48 @@ function cabecera(){
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
+    <!--Css-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="js/frameWorks/jQuery/jquery-ui-1.11.4/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="js/frameWorks/jQuery/jquery-ui-1.11.4/jquery-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="js/frameWorks/jQuery/jquery-ui-1.11.4/jquery-ui.theme.css" />
+     <!-- Custom styles for this template -->
     <link href="css/header.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
+    <!-- Angular-->
+    <script src="js/frameWorks/angular/angular.min.js" type="text/javascript" xml:space="preserve"></script>
+    <script src="js/frameWorks/angular/i18n/angular-locale_es-es.js" type="text/javascript" xml:space="preserve"></script>
+    <script src="js/frameWorks/angular/ng-currency.js" type="text/javascript" xml:space="preserve"></script>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <!-- jQuery-->
+    <script src="js/frameWorks/jQuery/jQuery.js" type="text/javascript" xml:space="preserve"></script>
+
+    <!-- Own code-->
+    <script src="js/model/userObj.js" type="text/javascript" xml:space="preserve"></script>
+    
+    <script src="js/control/generalFunctions.js" type="text/javascript" xml:space="preserve"></script>
+    <script src="js/control/index.js" type="text/javascript" xml:space="preserve"></script>
   </head>
 
-  <body>
-<div id="header">
-  
-<!--<input type="text" id="searchBar"/><input type="button" id="searchButton" value="asd"/>-->
-  
-  
-  <a href="/" id="logo">MyMusicalUniverse</a>
+
+<div id="header" ng-controller="myMusicalUniverseSessionController as myMusicalUniverseSessionCtrl">   
+  <a href="index.php" id="logo">MyMusicalUniverse</a>
   <ul id="menu">
-    <li><a href="/"><span>Home</span></a></li>
-    <li><a href="/"><span>Forums</span></a></li>
-    <li><a href="/"><span>Store</span></a></li>
-    <li><a href="/"><span>Events</span></a></li>
+    <li><a href="index.php"><span>Home</span></a></li>
+    <li><a href="#"><span>Forums</span></a></li>
+    <li><a href="#"><span>Store</span></a></li>
+    <li><a href="#"><span>Events</span></a></li>
   </ul>
   <ul id="menu2">
-    <li><a href="/"><span>Login</span></a></li>
-    <li><a href="/"><span>Register</span></a></li>
+    <li><a href="#" ng-click="userAction=1"><span>Login</span></a></li>
+    {{userAction}}
+    <li><a href="#" ng-click="userAction=2"><span>Register</span></a></li>
     <div class="row" id="searchButton">
-    
       <input type="text" class="btn btn-default">
         <button class="btn btn-default" type="button" onclick="searchWeb()"><span class="glyphicon glyphicon-search"></span></button>
-        </div>
-  </ul>  
-
-  
-  
+    </div>
+  </ul>
 </div>
-  </body>
 </html>
 <?php
 }

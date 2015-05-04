@@ -1,0 +1,40 @@
+<div class="image_alta">
+		<img src="images/logo_alta.jpg" width="700px" height="250px"/>
+</div>
+
+<div id="newMedicineDiv">
+	<form name="newMedicineForm" ng-submit="newMedicineForm.$valid && pharmacy.entryMedicine()" novalidate>
+			<div class="diseaseSelected">
+				<b>You may select a disease:</b>
+				<select id='diseaseSelected' ng-model="pharmacy.medicineObj.idDisease">
+			    	<option id="empty" value=""></option>
+			    	<option id="{{diseaseObject.getId()}}" value="{{diseaseObject.getId()}}" ng-repeat="diseaseObject in pharmacy.diseaseObjArray">{{diseaseObject.getColloquialName()}}</option>
+				</select><br/>
+			</div>
+			<table border=1 class="entryMedicineTable">
+				<tr><th>REF</th><th>NAME</th></tr>
+				<tr>
+					<td><input type="text" id="reference" ng-model="pharmacy.medicineObj.reference" ng-pattern="/^[0-9]*$/" ng-minlength=5 ng-maxlength=5 size=37 placeholder="Reference medicine (min 5 digits)" ng-change="pharmacy.checkReference()" required/></td>
+					<td><input type="text" id="name" ng-model="pharmacy.medicineObj.name" size=37 ng-pattern="/^[a-zA-Z]*$/" placeholder="Name medicine" required/></td>
+				</tr>
+				<tr><th>PRICE</th><th>ENTRY DATE</th></tr>
+				<tr>
+					<td><input type="text" id="price" ng-currency currency-symbol="€" ng-model="pharmacy.medicineObj.price" placeholder="Price medicine" size=37 required/></td>
+					<td><input calendar id="entryDate" name="entryDate" ng-model="pharmacy.medicineObj.entryDate" size=37 required readonly/></td>
+				</tr>
+			
+			<!--<table class="entryMedicineTable">	-->
+				<tr><th>DESCRIPTION</th><th>EFFECTS</th></tr>
+				<tr>
+					<td><textarea id="description" ng-model="pharmacy.medicineObj.description" rows="5" cols="34" placeholder="Description medicine" required></textarea></td>
+					<td><textarea id="effects" ng-model="pharmacy.medicineObj.effects" rows="5" cols="34" placeholder="Effects of medicine (separated by commas)" required></textarea></td>
+				</tr>
+				</table>
+			<!--</table>-->
+		<div class="actionButtons">
+			<ul class="nav nav-pills">
+				<li><input type="submit" value="Entry Medicine"/></li>
+			</ul>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,76 @@
+<form class="login2" name="userDataForm" ng-submit="pharmacySessionCtrl.userManagement()" novalidate>
+	<div class="userFormClass">	
+			<div class="row" ng-show="userAction==1">
+				<div class="col-xs-12"><h2>Add new User</h2></div>
+			</div>
+			<div class="row" ng-show="userAction==2">
+				<div class="col-xs-12"><h2>Modify your data</h2></div>
+			</div>
+			<div class="form-group">
+    			<div class="row">
+    				 <div class="col-xs-4"><label>Nick</label></div>
+
+		    		 <div class="col-xs-4"><label>Password</label></div>
+		    		 <div class="col-xs-4"><label>Repeat password</label></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4"><input type="text" id="nickname" class="form-control" ng-model="pharmacySessionCtrl.user.nick" ng-blur="pharmacySessionCtrl.checkNickname()" required/></div>
+					<div class="col-xs-4"><input type="password" name="password" class="form-control" ng-model="pharmacySessionCtrl.user.password" ng-minlength="6" required/></div>
+					<div class="col-xs-4"><input type="password" name="password2" id="repeatPass" class="form-control" ng-model="repeatPassword" ng-minlength="6" ng-change="pharmacySessionCtrl.checkPassword()" required/></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4"></div>
+					<div class="col-xs-4"><span class="help-block" ng-if="userDataForm.password.$error.minlength || userDataForm.password.$invalid">Password must be at least 6 characters</span></div>
+					<div class="col-xs-4"><span class="help-block" ng-if="pharmacySessionCtrl.user.password != repeatPassword">Password do not match</span></div>
+				</div><br/>
+		
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="formGroup">Image: <img src="{{pharmacySessionCtrl.user.getImage()}}" width="75" height="75" ng-show="userAction==2"/></label>
+					<label for="formGroup" ng-if="userAction==1"><input class="form-control" type="file" file="image" accept="image/*" ng-model="image" id="imageUser" required/></label>
+					<label for="formGroup" ng-if="userAction==2"><input class="form-control" type="file" file="image"  id="imageClientMod" accept="image/*" ng-model="image" id="imageUser2"/></label>
+				</div><br/>		
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-xs-4"><label>DNI:</label></div>
+					<div class="col-xs-4"><label>Name:</label></div>
+					<div class="col-xs-4"><label>First surname:</label></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4"><input type="text" class="form-control" ng-model="pharmacySessionCtrl.client.nif" ng-pattern="/^(\d{8})([A-Z])$/" required/></div>
+					<div class="col-xs-4"><input type="text" class="form-control" ng-model="pharmacySessionCtrl.client.name" ng-pattern="/^[a-zA-Z]+$/" required/><br/></div>
+					<div class="col-xs-4"><input type="text" class="form-control" ng-model="pharmacySessionCtrl.client.surname1" ng-pattern="/^[a-zA-Z]+$/" required/></div>
+				</div>
+    			<div class="row">
+					<div class="col-xs-4"><label>Second surname:</label></div>
+					<div class="col-xs-4"><label>Address:</label></div>
+					<div class="col-xs-4"><label>E-mail:</label></div>
+    			</div>	
+				<div class="row">
+					<div class="col-xs-4"><input type="text" class="form-control" ng-model="pharmacySessionCtrl.client.surname2" ng-pattern="/^[a-zA-Z]+$/" required/></div>
+					<div class="col-xs-4"><input type="text" class="form-control" ng-model="pharmacySessionCtrl.client.address" required/></div>
+					<div class="col-xs-4"><input type="text" class="form-control" ng-model="pharmacySessionCtrl.client.email" ng-pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/" required/></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4"><label>Phone:</label></div>
+					<div class="col-xs-4"><label>Birthdate:</label></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4"><input type="text" class="form-control" ng-model="pharmacySessionCtrl.client.phone" ng-maxlength="9" required/></div>
+					<div class="col-xs-4"><input calendar type="text" id="birthDate" class="form-control" ng-model="pharmacySessionCtrl.client.birthDate" ng-change="pharmacySessionCtrl.validateBirthDate()" readonly required/></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-4"></div>
+					<div class="col-xs-4"><span class="help-block" ng-if="!correctBirthDate">Please, enter correctly your date of birth</span><br/></div>
+				</div>						
+			</div>
+			<div>
+				<br/><br/>
+				<button ng-disabled="userDataForm.$invalid || !repeatPassword || !correctBirthDate" class="btn btn-success">
+					Submit
+				</button>
+				<input class="btn btn-default btn-primary" type="button" value="Return" ng-click="userAction=0"> 
+			</div>
+
+	</div>
+</form>
