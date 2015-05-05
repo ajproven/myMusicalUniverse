@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-05-2015 a las 20:51:14
+-- Tiempo de generación: 05-05-2015 a las 20:48:25
 -- Versión del servidor: 5.6.24
 -- Versión de PHP: 5.6.8
 
@@ -19,7 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `mymusicaluniverse`
 --
-
+CREATE DATABASE mymusicaluniverse;
+USE mymusicaluniverse;
 -- --------------------------------------------------------
 
 --
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `article` (
   `entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `content` varchar(2000) DEFAULT NULL,
   `theme` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `article_reply` (
   `id_article` int(5) DEFAULT NULL,
   `content` varchar(2000) DEFAULT NULL,
   `entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -63,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `event` (
   `event_name` varchar(20) DEFAULT NULL,
   `artist` varchar(20) DEFAULT NULL,
   `company` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -74,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `event` (
 CREATE TABLE IF NOT EXISTS `event_members` (
   `id_event` int(5) NOT NULL DEFAULT '0',
   `id_user` int(5) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `image` varchar(50) DEFAULT NULL,
   `stock` int(5) DEFAULT NULL,
   `inSale` int(2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `sellings` (
   `id_product` int(5) NOT NULL DEFAULT '0',
   `amount` int(5) DEFAULT NULL,
   `total_money` float DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -115,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `song` (
   `id` int(5) NOT NULL,
   `name` varchar(20) DEFAULT NULL,
   `song_url` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -126,18 +127,26 @@ CREATE TABLE IF NOT EXISTS `song` (
 CREATE TABLE IF NOT EXISTS `subforums` (
   `id` int(5) NOT NULL,
   `name` varchar(10) DEFAULT NULL,
-  `description` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `description` varchar(30) DEFAULT NULL,
+  `image` varchar(50) DEFAULT NULL,
+  `type` int(1) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `subforums`
 --
 
-INSERT INTO `subforums` (`id`, `name`, `description`) VALUES
-(1, 'Pop', 'Pop music subforum'),
-(2, 'Rock', 'Rock music subforum'),
-(3, 'Classical', 'Classical music subforum'),
-(4, 'Hip Hop', 'Hip hop music subforum');
+INSERT INTO `subforums` (`id`, `name`, `description`, `image`,`type`) VALUES
+(1, 'Pop', 'Pop music subforum', 'lala.jpg',0),
+(2, 'Rock', 'Rock music subforum', 'lala.jpg',0),
+(3, 'Classical', 'Classical music subforum', 'lala.jpg',0),
+(4, 'Hip Hop', 'Hip hop music subforum', 'lala.jpg',0),
+(5, 'Latin', 'Latin music subforum', 'lala.jpg',0),
+(6, 'Indie', 'Indie music subforum', 'lala.jpg',0),
+(7, 'Travelling', 'Travelling subforum', 'lala.jpg',1),
+(8, 'Sports', 'Sports subforum', 'lala.jpg',1),
+(9, 'Videogames', 'Videogames subforum', 'lala.jpg',1),
+(10, 'TV', 'TV subforum', 'lala.jpg',1);
 
 -- --------------------------------------------------------
 
@@ -149,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `subscription` (
   `id_user` int(5) NOT NULL DEFAULT '0',
   `id_thread` int(5) NOT NULL DEFAULT '0',
   `last_reply` int(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -165,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `thread` (
   `content` varchar(2000) DEFAULT NULL,
   `total_replies` int(5) DEFAULT NULL,
   `id_subforum` int(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -180,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `thread_reply` (
   `content` varchar(2000) DEFAULT NULL,
   `entry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `number_reply` int(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -201,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `bank_account` varchar(50) DEFAULT NULL,
   `phone` int(9) DEFAULT NULL,
   `image` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Índices para tablas volcadas
@@ -312,7 +321,7 @@ ALTER TABLE `song`
 -- AUTO_INCREMENT de la tabla `subforums`
 --
 ALTER TABLE `subforums`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `thread`
 --

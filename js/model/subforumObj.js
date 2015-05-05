@@ -25,23 +25,31 @@ function subforumObj ()
 	var id;
 	var name;
 	var description;
+	var image;
+	var type;
 	
 	//  Construct  //
-	this.construct = function (id,name,description) 
+	this.construct = function (id,name,description,image,type) 
 	{
 		this.setId(id);
 		this.setName(name);
 		this.setDescription(description);
+		this.setImage(image);
+		this.setType(type);
 	}
 
 	//  Accessors  //
 	this.setId = function (id) {this.id = id;}
 	this.setName = function (name) {this.name = name;}
 	this.setDescription = function (description) {this.description = description;}
-	
+	this.setImage = function (image) {this.image = image;}
+	this.setType = function (type) {this.type = type;}
+
 	this.getId = function () {return this.id;}
 	this.getName = function () {return this.name;}
 	this.getDescription = function () {return this.description;}
+	this.getImage = function () {return this.image;}
+	this.getType = function () {return this.type;}
 	
 
 	//  Methods  //
@@ -89,7 +97,7 @@ function subforumObj ()
 	}*/
 	this.toString = function () 
 	{
-		var subforumString = "id="+this.getId()+" name="+this.getName()+" description="+this.getDescription() ;
+		var subforumString = "id="+this.getId()+" name="+this.getName()+" description="+this.getDescription()+" image="+this.getImage();
 		
 
 		return subforumString;

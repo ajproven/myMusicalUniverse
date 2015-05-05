@@ -11,9 +11,11 @@ require_once "BDProject.php";
 
 class subforumClass {
 
-private $id;
+	private $id;
     private $name;
     private $description;
+    private $image;
+    private $type;
     
 
     //----------Data base Values---------------------------------------
@@ -21,6 +23,8 @@ private $id;
     private static $colNameId = "id";
     private static $colNameName = "name";
     private static $colNameDescription = "description";
+    private static $colNameImage = "image";
+    private static $colNameType = "type";
 
     function __construct() {
     }
@@ -37,7 +41,13 @@ private $id;
     public function getDescription() {
         return $this->description;
     }
+    public function getImage() {
+        return $this->image;
+    }
 
+    public function getType() {
+        return $this->type;
+    }
     public function setId($id) {
         $this->id = $id;
     }
@@ -50,18 +60,28 @@ private $id;
     public function setDescription($description) {
         $this->description = $description;
     }
+    public function setImage($image) {
+        $this->image = $image;
+    }
+    public function setType($type) {
+        $this->type = $type;
+    }
     public function getAll() {
 		$data = array();
 		$data["id"] = $this->getId();	
 		$data["name"] = $this->getName();
 		$data["description"] = $this->getDescription();
+		$data["image"] = $this->getImage();
+		$data["type"] = $this->getType();
 		return $data;
     }
 
-    public function setAll($id,$name,$description) {
+    public function setAll($id,$name,$description,$image,$type) {
 		$this->setId($id);
 		$this->setName($name);
 		$this->setDescription($description);
+		$this->setImage($image);
+		$this->setType($type);
     }
 
     //---Databese management section-----------------------
@@ -95,12 +115,16 @@ private $id;
 		$id = $res[ subforumClass::$colNameId];
 		$name = $res[ subforumClass::$colNameName ];
 		$description = $res[ subforumClass::$colNameDescription ];		
+		$image = $res[ subforumClass::$colNameImage ];		
+		$type = $res[ subforumClass::$colNameType ];		
 		
        	//Object construction
        	$entity = new subforumClass();
 		$entity->setId($id);
 		$entity->setName($name);
 		$entity->setDescription($description);
+		$entity->setImage($image);
+		$entity->setType($type);
 		
 		return $entity;
     }
@@ -153,8 +177,8 @@ private $id;
 		//Preparing the sentence
 		$stmt = $conn->stmt_init();
 		//return "insert into ".subforumClass::$tableName." (`reference`,`idDisease`,`name`,`description`,`effects`,`price`,`entryDate`) values (?, ?, ?, ?, ?, ?, ?)";
-		if ($stmt->prepare("insert into ".subforumClass::$tableName." (`id`,`name`,`description`) values (?, ?, ?)" )) {
-			$stmt->bind_param("iss",  $this->getId(), $this->getName(), $this->getDescription());
+		if ($stmt->prepare("insert into ".subforumClass::$tableName." (`id`,`name`,`description`,`image`) values (?, ?, ?,?)" )) {
+			$stmt->bind_param("isss",  $this->getId(), $this->getName(), $this->getDescription(),$this->getImage());
 			//executar consulta
 			$stmt->execute();
 			}
