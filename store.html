@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="js/frameWorks/jQuery/jquery-ui-1.11.4/jquery-ui.theme.css" />
     <link rel="stylesheet" type="text/css" href="css/header.css" />
 
+
     <!-- Angular-->
     <script src="js/frameWorks/angular/angular.min.js" type="text/javascript" xml:space="preserve"></script>
     <script src="js/frameWorks/angular/i18n/angular-locale_es-es.js" type="text/javascript" xml:space="preserve"></script>
@@ -43,16 +44,16 @@
   <body ng-controller="myMusicalUniverseSessionController as myMusicalUniverseSessionCtrl" ng-init="myMusicalUniverseSessionCtrl.sessionController()">
     <header-form id="headerForm"></header-form>
     <div class="mainSection">
-      <div class="container">
-              <div class="row">
-                <div class="col-sm-8" style="background-color: brown;">
-                  <div id="loginDiv" ng-show="userAction==1">
-                    <login-form id="LoginForm"></login-form>
-                  </div>
-                </div>
-                <div class="col-sm-4" style="background-color: red;"></div>
-              </div>
-      </div>
+      <div class="container-full">
+               <div class="row">
+  <div class="col-sm-6 " style="background-color:red">Pop</div>
+  <div class="col-sm-6" style="background-color:green">Resize your viewport or check it out on your phone for an example. </div>
+  </div>
+         <div class="row">
+  <div class="col-sm-6" style="background-color:blue">Hip Hop</div>
+  <div class="col-sm-6" style="background-color:purple">Classical</div>
+</div>
+      
     </div>   
   </body>
 </html>

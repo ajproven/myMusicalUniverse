@@ -1,0 +1,10 @@
+<form name="newSubforumForm" ng-submit="newSubforumForm.$valid && myMusicalUniverseMainCtrl" novalidate>
+<div class="subforumDiv">
+      
+  	<div ng-repeat="subforumoj in myMusicalUniverseMainCtrl.subforumObjArray">
+  	<a href="#" ng-click="myMusicalUniverseMainCtrl.showThreadsBySubforum(subforumoj.getId())">{{subforumoj.getName()}}</a>
+  {{subforumoj.getDescription()}}
+  
+</div>
+    </div>
+</form>

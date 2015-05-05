@@ -1,5 +1,6 @@
 $(document).ready(function (){
 	//TODO...
+	getSubforums();
 });
 
 //Angular code
@@ -8,11 +9,15 @@ $(document).ready(function (){
 	var myMusicUniverseApp = angular.module('myMusicalUniverseManagement', ["ng-currency"]);
 
 	//Controllers of the application
+	//este el controlador de sesion login y registro
 	myMusicUniverseApp.controller("myMusicalUniverseSessionController", function($scope){
+	//
 
 		//======== PROPERTIES ===========//
 		//Properties
 		this.user = new userObj();
+		
+		
 
 		//Scope variables
 		$scope.userAction=0;
@@ -23,28 +28,16 @@ $(document).ready(function (){
 		this.login = function ()
 		{
 
-
+		
 		}
+		
+	
 
 		this.sessionController = function ()
 		{
-
-			
-			/*if(typeof(Storage))
-			{
-				var userObj = JSON.parse(sessionStorage.getItem("userConnected"));
-				
-				if(userObj != undefined)
-				{
-					window.open("mainWindow.html","_self");
-				}
-			}
-			else alert("This browser does not support session variables");*/
+	
 		}
-
-
-	});
-
+});
 	//This directive it's necesary to use the calendar plugin in the templates.
 	myMusicUniverseApp.directive('calendar', function () {
             return {
@@ -85,5 +78,39 @@ $(document).ready(function (){
 		  controllerAs: 'headerForm'
 		};
 	});
+
+	
+
 })();
 
+
+		function getSubforums(){
+			var subforumObjArray = new Array();
+			$.ajax({
+				url:"php/control/control.php",
+				type: "POST",
+				data: "action=2",
+				dataType: "json",
+				async: false,
+				success: function (response) {
+					outPutData = response;
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert("There has been an error while connecting to the server, try later");
+					console.log(xhr.status+"\n"+thrownError);
+				}
+			});		
+			var divContent="";	
+				//var subforumObjArray = new Array();		
+					for (var i = 0; i < outPutData.length; i++) {
+					subforum = new subforumObj();
+					
+					subforum.construct(outPutData[i].id,outPutData[i].name,outPutData[i].description);
+					subforumObjArray.push(this.subforum);
+					
+					divContent+="<a href='#'>"+subforumObjArray[i].getName()+"</a>";
+					divContent+="<span>"+subforumObjArray[i].getDescription()+"</span>"
+					}
+					$('#subforumContent').html(divContent);
+					
+		}
