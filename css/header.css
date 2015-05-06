@@ -167,21 +167,3 @@ menu2 login register field
   float:right;
   margin-right:3%; 
 }
-#subforumSingle{
-background-color: white;
-  text-align: right;
-  display: block;
-  margin: 1%;  
-  padding:1%;
-border-radius: 5px;
-}
-#subforumSingle img{
-
-float:left;
-border-radius: 10px;
-}
-#subwrapper{
-
-  background-color: lightgrey;
-  
-}

@@ -1,20 +1,17 @@
 <form name="newSubforumForm" ng-submit="newSubforumForm.$valid && myMusicalUniverseForumCtrl" novalidate>
 <div class="row" id="subwrapper">
  <h3>Music</h3>     
- <!--ng-click="myMusicalUniverseForumCtrl.showThreadsBySubforum({{subforumoj.getId()}})"-->
+ <!--ng-click="myMusicalUniverseForumCtrl.redirectToSubforumById({{subforumoj.getId()}})"-->
  <!--ng-if="subforumoj.getId()==4"-->
   	<div ng-repeat="subforumoj in myMusicalUniverseForumCtrl.subforumObjArray" ng-if="subforumoj.getType()==0" class="col-sm-3" id="subforumSingle">
-  	<a href="#" ng-click="myMusicalUniverseForumCtrl.showThreadsBySubforum(subforumoj.id)"><img src="images/userImages/{{subforumoj.getImage()}}" height="40" width="40"><a href="#" >{{subforumoj.getName()}}</a><br/>
+  	<a href="" ng-click="myMusicalUniverseForumCtrl.redirectToSubforumById(subforumoj)"><img src="images/userImages/{{subforumoj.getImage()}}" height="40" width="40" ><a href="" ng-click="myMusicalUniverseForumCtrl.redirectToSubforumById(subforumoj)">{{subforumoj.getName()}}</a><br/>
   {{subforumoj.getDescription()}}
-
-
-  
 </div>
 </div>
 <div class="row" id="subwrapper">
 <h3>Offtopic</h3>
 <div ng-repeat="subforumoj in myMusicalUniverseForumCtrl.subforumObjArray" ng-if="subforumoj.getType()==1" class="col-sm-3" id="subforumSingle">
-  	<a href="#" ng-click="myMusicalUniverseForumCtrl.showThreadsBySubforum(subforumoj.id)"><img src="images/userImages/{{subforumoj.getImage()}}" height="40" width="40"><a href="#" >{{subforumoj.getName()}}</a><br/>
+  	<a href="" ng-click="myMusicalUniverseForumCtrl.redirectToSubforumById(subforumoj)"><img src="images/userImages/{{subforumoj.getImage()}}" height="40" width="40"><a href="" ng-click="myMusicalUniverseForumCtrl.redirectToSubforumById(subforumoj)">{{subforumoj.getName()}}</a><br/>
   {{subforumoj.getDescription()}}
 
   

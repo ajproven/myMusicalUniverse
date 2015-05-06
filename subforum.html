@@ -40,30 +40,29 @@
   <script src="js/model/subforumObj.js" type="text/javascript" xml:space="preserve"></script>
   <script src="js/model/threadObj.js" type="text/javascript" xml:space="preserve"></script>
 
+
   <script src="js/control/generalFunctions.js" type="text/javascript" xml:space="preserve"></script>
   <script src="js/control/index.js" type="text/javascript" xml:space="preserve"></script>
   <script src="js/control/forum.js" type="text/javascript" xml:space="preserve"></script>
+
 </head>
-<body ng-controller="myMusicalUniverseForumController as myMusicalUniverseForumCtrl" ng-init="myMusicalUniverseForumCtrl.getSubforums()">
+<body ng-controller="myMusicalUniverseForumController as myMusicalUniverseForumCtrl" ng-init="myMusicalUniverseForumCtrl.getThreadsById()">
   <div id="headerDiv">
     <header-form id="headerForm"></header-form>
   </div>
-
-  <div class="mainSection" >
-    <div class="container">
+  <div class="container">
       <div class="row">
-        <div class="col-sm-10">
+        <div class="col-sm-12">
           <div id="loginDiv" ng-show="userAction==1">
             <login-form id="LoginForm"></login-form>
           </div>
             <!--subforum-->
-          <div id="subforumContent">
-            <subforum-form id="subforumForm"></subforum-form>
+          <div id="threads">
+            <thread-form id="threadForm"></thread-form>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </div>   
 </body>
 </html>

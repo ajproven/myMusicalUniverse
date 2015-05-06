@@ -1,0 +1,13 @@
+<form name="threadForm" ng-submit="newThreadForm.$valid && myMusicalUniverseForumCtrl" novalidate>
+<div class="row col-sm-12" id="subwrapper">
+ <h3>Forum</h3>
+ 
+ <div class="col-sm-8">Title</div><div class="col-sm-2">Date</div><div class="col-sm-2">Nº Replys</div>
+ <div ng-repeat="threadoj in myMusicalUniverseForumCtrl.threadObjArray"  id="threadSingle">
+ <div class="col-sm-8" id="threadTitle"><a href="" ng-click="myMusicalUniverseForumCtrl.redirectToThreadById(threadoj.id,threadoj.content)">{{threadoj.getTitle()}}</a><br><div>{{threadoj.getIdUser()}}</div></div> <div class="col-sm-2"id="threadEntryDate">{{threadoj.getEntryDate()}}</div><div class="col-sm-2" id="threadNumberReplies">{{threadoj.getTotalReplies()}}</div>
+
+ </div>
+ </div>
+<!--<div class="col-sm-8" id="threadTitle"><a href="#">{{threadoj.getTitle()}}</a><br>{{threadoj.getIdUser()}}</div> <div class="col-sm-2"id="threadEntryDate">{{threadoj.getEntryDate()}}</div><div class="col-sm-2" id="threadNumberReplies">{{threadoj.getTotalReplies()}}</div>
+ </div>-->
+</form>

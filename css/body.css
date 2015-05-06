@@ -1,9 +1,46 @@
-.container-full {
-  margin: 0 auto;
-  width: 100%;
+#subforumSingle{
+background-color: white;
+  text-align: right;
+  display: block;
+  margin: 1%;  
+  padding:1%;
+border-radius: 5px;
+}
+#threadSingle{
+background-color: white;
+  text-align: left;
+width: 100%;  
 
-
-#subforDiv{
+}
+#threadTitle{
 background-color: pink;
+border:solid 1px lightgrey;
+padding-left: 0px;
+}
+#threadEntryDate{
+background-color: lightblue;
+border:solid 1px lightgrey;
+padding-top: 0.875%;
+padding-bottom: 0.875%;
 
+
+}
+#threadNumberReplies{
+background-color: yellow;
+border:solid 1px lightgrey;
+display: table-cell;
+padding-top: 0.875%;
+padding-bottom: 0.875%;
+}
+
+#subforumSingle img{
+
+float:left;
+border-radius: 10px;
+}
+#subwrapper{
+
+  background-color: lightgrey;
+  padding-bottom: 1%;
+  
 }

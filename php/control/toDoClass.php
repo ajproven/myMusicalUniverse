@@ -4,6 +4,8 @@
  * it controls the hole server part of the application
 */
 require_once "../model/subforumClass.php";
+require_once "../model/threadClass.php";
+require_once "../model/userClass.php";
 
 class toDoClass {
 	/*static public function login($action, $username, $password)
@@ -24,10 +26,43 @@ class toDoClass {
 			array_push($outPutData,$value->getAll());
 			}
 		}
+		 return json_encode($outPutData);	 
+	}
+
+	static public function getThreadsBySubforum($action,$idSubforum){
+
+		$outPutData = array();
+		$errors = array();
+		$outPutData[0]=true;
+		$listThreadSearch = threadClass::findById($idSubforum);
 		
-		 return json_encode($outPutData);
+		 if (count($listThreadSearch)==0)
+		{
+			$outPutData[0]=false;
+			$errors[]="No threads have been found into the databse";
+			$outPutData[1]=$errors;
+		}
+		else
+		{
+			$listThreadsOutPut = array();
+			$listUserOutPut = array();
+			foreach ($listThreadSearch as $thread) {
+				$listThreadsOutPut[]=$thread->getAll();
+				$listNameCreators = userClass::findNameById($thread->getIdUser());
+				//print_r ($listNameCreators[0]);
+				
+				foreach ($listNameCreators as $list) {
+					//$outPutData[2]=$listNameCreators[0]->getAll();
+					//print_r($list);
+				}
+				
+			}
+
+			$outPutData[1]=$listThreadsOutPut;
+		}
 		
-		 
+		return json_encode($outPutData);
+
 	}
 /*
 	static public function getAllSubforums($action){
