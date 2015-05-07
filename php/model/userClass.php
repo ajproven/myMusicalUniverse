@@ -102,7 +102,7 @@ class userClass {
         $this->name = $name;
     }    
 
-	public function setSurname1($surname1) {
+    public function setSurname1($surname1) {
         $this->surname1 = $surname1;
     }
 
@@ -135,69 +135,69 @@ class userClass {
     }
     
     public function getAll() {
-		$data = array();
-		$data["id"] = $this->id;
-		$data["username"] = $this->username;
-        $data["password"] = $this->password;
-        $data["name"] = $this->name;
-		$data["surname1"] = $this->surname1;
-        $data["surname2"] = $this->surname2;
-		$data["type_user"] = $this->type_user;
-		$data["email"] = $this->email;		
-		$data["address"] = $this->address;		
-        $data["bank_account"] = $this->bank_account;
-		$data["phone"] = $this->phone;
-		$data["image"] = $this->image;
+        $data = array();
+        $data["id"] = $this->getId();
+        $data["username"] = $this->getUsername();
+        $data["password"] = $this->getPassword();
+        $data["name"] = utf8_encode($this->getName());
+        $data["surname1"] = utf8_encode($this->getSurname1());
+        $data["surname2"] = utf8_encode($this->getSurname2());
+        $data["type_user"] = $this->getTypeUser();
+        $data["email"] = $this->getEmail();     
+        $data["address"] = utf8_encode($this->getAddress());     
+        $data["bank_account"] = $this->getBankAccount();
+        $data["phone"] = $this->getPhone();
+        $data["image"] = $this->getImage();
 
-		return $data;
+        return $data;
     }
 
-    public function setAll($id,$username,$password,$name,$surname1,$surname2,$type_user,$email,$address,$bank_account,$phone,$image) {
-		$this->setId($id);
-		$this->setUserName($username);
+    public function setAll($id, $username, $password, $name, $surname1, $surname2, $type_user, $email, $address, $bank_account, $phone, $image) {
+        $this->setId($id);
+        $this->setUserName($username);
         $this->setPassword($password);
         $this->setName($name);
-		$this->setSurname1($surname1);
+        $this->setSurname1($surname1);
         $this->setSurname2($surname2);
-		$this->setTypeUser($type_user);
+        $this->setTypeUser($type_user);
         $this->setEmail($email);
         $this->setAddress($address);
         $this->setBankAccount($bank_account);
-		$this->setPhone($phone);
-		$this->setImage($image);
+        $this->setPhone($phone);
+        $this->setImage($image);
     }
     
     //---Databese management section-----------------------
     /**
-	 * fromResultSetList()
-	 * this function runs a query and returns an array with all the result transformed into an object
-	 * @param res query to execute
-	 * @return objects collection
+     * fromResultSetList()
+     * this function runs a query and returns an array with all the result transformed into an object
+     * @param res query to execute
+     * @return objects collection
     */
     private static function fromResultSetList( $res ) {
-	$entityList = array();
-	$i=0;
-	while ( ($row = $res->fetch_array(MYSQLI_BOTH)) != NULL ) {
-		//We get all the values an add into the array
-		$entity = userClass::fromResultSet( $row );
-		
-		$entityList[$i]= $entity;
-		$i++;
-	}
-	return $entityList;
+    $entityList = array();
+    $i=0;
+    while ( ($row = $res->fetch_array(MYSQLI_BOTH)) != NULL ) {
+        //We get all the values an add into the array
+        $entity = userClass::fromResultSet( $row );
+        
+        $entityList[$i]= $entity;
+        $i++;
+    }
+    return $entityList;
     }
 
 
         //id,username,password,name,surname1,surname2,type_user,email,address,bank_account,phone,image  
     /**
-	* fromResultSet()
-	* the query result is transformed into an object
-	* @param res ResultSet del qual obtenir dades
-	* @return object
+    * fromResultSet()
+    * the query result is transformed into an object
+    * @param res ResultSet del qual obtenir dades
+    * @return object
     */
     private static function fromResultSet( $res ) {
-	//We get all the values form the query
-		$id = $res[ userClass::$colNameId];
+    //We get all the values form the query
+        $id = $res[ userClass::$colNameId];
         $username = $res[ userClass::$colNameUserName ];
         $password = $res[ userClass::$colNamePassword ];
         $name = $res[ userClass::$colNameName ];
@@ -210,56 +210,45 @@ class userClass {
         $phone = $res[ userClass::$colNamePhone ];
         $image = $res[ userClass::$colNameImage ];
 
-       	//Object construction
-       	$entity = new userClass();
-		$entity->setId($id);
-		$entity->setUserName($username);
+        //Object construction
+        $entity = new userClass();
+        $entity->setId($id);
+        $entity->setUserName($username);
         $entity->setPassword($password);
         $entity->setName($name);
-		$entity->setSurname1($surname1);
+        $entity->setSurname1($surname1);
         $entity->setSurname2($surname2);
-		$entity->setTypeUser($type_user);
-		$entity->setEmail($email);
-		$entity->setAddress($address);
+        $entity->setTypeUser($type_user);
+        $entity->setEmail($email);
+        $entity->setAddress($address);
         $entity->setBankAccount($bank_account);
-		$entity->setPhone($phone);
-		$entity->setImage($image);
+        $entity->setPhone($phone);
+        $entity->setImage($image);
 
-		return $entity;
+        return $entity;
     }
 
     /**
-	 * findByQuery()
-	 * It runs a particular query and returns the result
-	 * @param cons query to run
-	 * @return objects collection
+     * findByQuery()
+     * It runs a particular query and returns the result
+     * @param cons query to run
+     * @return objects collection
     */
     public static function findByQuery( $cons ) {
-	//Connection with the database
-	$conn = new BDProject();
-	if (mysqli_connect_errno()) {
-    		printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
-    		exit();
-	}
-	
-	//Run the query
-	$res = $conn->query($cons);
-	
-	if ( $conn != null ) $conn->close();
-	
-	return userClass::fromResultSetList( $res );
+    //Connection with the database
+    $conn = new BDProject();
+    if (mysqli_connect_errno()) {
+            printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
+            exit();
     }
+    
+    //Run the query
+    $res = $conn->query($cons);
 
-    /**
-	 * findById()
-	 * It runs a query and returns an object array
-	 * @param id
-	 * @return object with the query results
-    */
-    public static function findById( $id ) {
-	$cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameId." = \"".$id."\"";
-
-	return userClass::findByQuery( $cons );
+    
+    if ( $conn != null ) $conn->close();
+    
+    return userClass::fromResultSetList( $res );
     }
 
     /**
@@ -268,45 +257,45 @@ class userClass {
      * @param id
      * @return object with the query results
     */
-    public static function findNameById( $id ) {
-    $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameId." =".$id;
-    //echo $cons;
+    public static function findById( $id ) {
+    $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameId." = \"".$id."\"";
+
     return userClass::findByQuery( $cons );
     }
 
     /**
-	 * findlikeName()
-	 * It runs a query and returns an object array
-	 * @param name
-	 * @return object with the query results
+     * findlikeName()
+     * It runs a query and returns an object array
+     * @param name
+     * @return object with the query results
     */
     public static function findlikeName( $likeName ) {
-		$cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameName." like \"%".$likeName."%\"";
-		return userClass::findByQuery( $cons );
+        $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameName." like \"%".$likeName."%\"";
+        return userClass::findByQuery( $cons );
     }
 
 
     
     /**
-	* findByName()
-	 * It runs a query and returns an object array
-	 * @param name
-	 * @return object with the query results
+    * findByName()
+     * It runs a query and returns an object array
+     * @param name
+     * @return object with the query results
     */
     public static function findByName( $name ) {
-		$cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameName." = \"".$name."\"";
-		return userClass::findByQuery( $cons );
+        $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameName." = \"".$name."\"";
+        return userClass::findByQuery( $cons );
     }
 
     /**
-	* findByNick()
-	 * It runs a query and returns an object array
-	 * @param name
-	 * @return object with the query results
+    * findByNick()
+     * It runs a query and returns an object array
+     * @param name
+     * @return object with the query results
     */
     public static function findByNick( $nick ) {
-		$cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameNick." = \"".$nick."\"";
-		return userClass::findByQuery( $cons );
+        $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameNick." = \"".$nick."\"";
+        return userClass::findByQuery( $cons );
     }
     
     /**
@@ -317,101 +306,102 @@ class userClass {
     */
     public static function findByUsernameAndPass( $username, $password ) {
         $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameUserName." = \"".$username."\" and ".userClass::$colNamePassword." = \"".$password."\"";
+        //print_r( userClass::findByQuery( $cons ));
         return userClass::findByQuery( $cons );
     }
 
-    public static function checkIfExistUserName( $userNick) {
+    public static function checkIfExistUserName( $username) {
         $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameUserName." = \"".$username."\"";
 
         return userClass::findByQuery( $cons );
     }
     
     /**
-	 * findAll()
-	 * It runs a query and returns an object array
-	 * @param none
-	 * @return object with the query results
+     * findAll()
+     * It runs a query and returns an object array
+     * @param none
+     * @return object with the query results
     */
     public static function findAll( ) {
-    	$cons = "select * from `".userClass::$tableName."`";
-	return userClass::findByQuery( $cons );
+        $cons = "select * from `".userClass::$tableName."`";
+    return userClass::findByQuery( $cons );
     }
 
 
     /**
-	 * create()
-	 * insert a new row into the database
+     * create()
+     * insert a new row into the database
     */
     public function create() {
-		//Connection with the database
-		$conn = new BDcateringCompany();
-		if (mysqli_connect_errno()) {
-			printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
-				exit();
-		}
+        //Connection with the database
+        $conn = new BDcateringCompany();
+        if (mysqli_connect_errno()) {
+            printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
+                exit();
+        }
 
-		//Preparing the sentence
-		$stmt = $conn->stmt_init();
-		if ($stmt->prepare("insert into ".userClass::$tableName." (`name`,`surname1`,`nick`,`password`,`address`,`telephone`,`mail`,`birthDate`,`entryDate`,`dropOutDate`,`active`,`image`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" )) {
-			$stmt->bind_param("sssssissssis", $this->getName(), $this->getSurname1(), $this->getNick(), $this->getPassword(), $this->getAddress(), $this->getTelephone(), $this->getMail(), $this->getBirthDate(), $this->getEntryDate(), $this->getDropOutDate(), $this->getActive(), $this->getImage());
-			//executar consulta
-			$stmt->execute();
-			
-			$this->setId($conn->insert_id);
-	    }
-	    
-	    if ( $conn != null ) $conn->close();
-	    
-	    return $this->getId();
-	}
+        //Preparing the sentence
+        $stmt = $conn->stmt_init();
+        if ($stmt->prepare("insert into ".userClass::$tableName." (`name`,`surname1`,`nick`,`password`,`address`,`telephone`,`mail`,`birthDate`,`entryDate`,`dropOutDate`,`active`,`image`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" )) {
+            $stmt->bind_param("sssssissssis", $this->getName(), $this->getSurname1(), $this->getNick(), $this->getPassword(), $this->getAddress(), $this->getTelephone(), $this->getMail(), $this->getBirthDate(), $this->getEntryDate(), $this->getDropOutDate(), $this->getActive(), $this->getImage());
+            //executar consulta
+            $stmt->execute();
+            
+            $this->setId($conn->insert_id);
+        }
+        
+        if ( $conn != null ) $conn->close();
+        
+        return $this->getId();
+    }
 
     /**
-	 * delete()
-	 * it deletes a row from the database
+     * delete()
+     * it deletes a row from the database
     */
     public function delete() {
-		//Connection with the database
-		$conn = new BDcateringCompany();
-		if (mysqli_connect_errno()) {
-    		printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
-    		exit();
-		}
-		
-		//Preparing the sentence
-		$stmt = $conn->stmt_init();
-		if ($stmt->prepare("delete from `".userClass::$tableName."` where ".userClass::$colNameId." = ?")) {
-			$stmt->bind_param("i", $this->getId());
-			$stmt->execute();
-		}
-		if ( $conn != null ) $conn->close();
+        //Connection with the database
+        $conn = new BDcateringCompany();
+        if (mysqli_connect_errno()) {
+            printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
+            exit();
+        }
+        
+        //Preparing the sentence
+        $stmt = $conn->stmt_init();
+        if ($stmt->prepare("delete from `".userClass::$tableName."` where ".userClass::$colNameId." = ?")) {
+            $stmt->bind_param("i", $this->getId());
+            $stmt->execute();
+        }
+        if ( $conn != null ) $conn->close();
     }
 
 
     /**
-	 * update()
-	 * it updates a row of the database
-    */	
-	 public function update() {
-		//Connection with the database
-		$conn = new BDcateringCompany();
-		if (mysqli_connect_errno()) {
-    		printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
-    		exit();
-		}
-					    
-		//Preparing the sentence
-		$stmt = $conn->stmt_init();
-		if ($stmt->prepare("update `".userClass::$tableName."` set ".userClass::$colNameId." = ?, ".userClass::$colNameName." = ?, ".userClass::$colNameSurname1." = ?, ".userClass::$colNameNick." = ?, ".userClass::$colNamePassword." = ?, ".userClass::$colNameAddress." = ?, ".userClass::$colNameTelephone." = ?, ".userClass::$colNameMail." = ?, ".userClass::$colNameBirthDate." = ?, ".userClass::$colNameEntryDate." = ?, ".userClass::$colNameDropOutDate." = ?, ".userClass::$colNameActive." = ?, ".userClass::$colNameImage." = ? where ".userClass::$colNameId." = '".$this->getId()."'") ) {
-			$stmt->bind_param("isssssissssis", $this->getId(), $this->getName(), $this->getSurname1(), $this->getNick(), $this->getPassword(), $this->getAddress(), $this->getTelephone(), $this->getMail(), $this->getBirthDate(), $this->getEntryDate(), $this->getDropOutDate(), $this->getActive(), $this->getImage());
-			
-			$stmt->execute();
-		}
-		if ( $conn != null ) $conn->close();
+     * update()
+     * it updates a row of the database
+    */  
+     public function update() {
+        //Connection with the database
+        $conn = new BDcateringCompany();
+        if (mysqli_connect_errno()) {
+            printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
+            exit();
+        }
+                        
+        //Preparing the sentence
+        $stmt = $conn->stmt_init();
+        if ($stmt->prepare("update `".userClass::$tableName."` set ".userClass::$colNameId." = ?, ".userClass::$colNameName." = ?, ".userClass::$colNameSurname1." = ?, ".userClass::$colNameNick." = ?, ".userClass::$colNamePassword." = ?, ".userClass::$colNameAddress." = ?, ".userClass::$colNameTelephone." = ?, ".userClass::$colNameMail." = ?, ".userClass::$colNameBirthDate." = ?, ".userClass::$colNameEntryDate." = ?, ".userClass::$colNameDropOutDate." = ?, ".userClass::$colNameActive." = ?, ".userClass::$colNameImage." = ? where ".userClass::$colNameId." = '".$this->getId()."'") ) {
+            $stmt->bind_param("isssssissssis", $this->getId(), $this->getName(), $this->getSurname1(), $this->getNick(), $this->getPassword(), $this->getAddress(), $this->getTelephone(), $this->getMail(), $this->getBirthDate(), $this->getEntryDate(), $this->getDropOutDate(), $this->getActive(), $this->getImage());
+            
+            $stmt->execute();
+        }
+        if ( $conn != null ) $conn->close();
 
     }
     public function toString() {
         $toString = "userClass[id=" . $this->id . "][name=" . $this->getName(). "][surname1=" . $this->getSurname1() . "][password=" . $this->password . "][email=" . $this->mail . "]";
-		return $toString;
+        return $toString;
 
     }
 }

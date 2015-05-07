@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `thread_reply` (
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(5) NOT NULL,
   `username` varchar(10) DEFAULT NULL,
-  `password` varchar(30) DEFAULT NULL,
+  `password` varchar(32) DEFAULT NULL,
   `name` varchar(15) DEFAULT NULL,
   `surname1` varchar(15) DEFAULT NULL,
   `surname2` varchar(15) DEFAULT NULL,

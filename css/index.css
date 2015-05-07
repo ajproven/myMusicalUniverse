@@ -1,0 +1,14 @@
+.modal-backdrop {
+    z-index: -1;
+}
+
+/* CSS FOR ANGULAR VALIDATION TEXTFIELDS*/
+.ng-invalid.ng-dirty
+{
+  border-color:red
+}
+
+.ng-valid.ng-dirty
+{
+  border-color:green
+}

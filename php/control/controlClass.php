@@ -49,14 +49,11 @@ class controlClass {
 					case '4':
 						echo toDoClass::getThreadContent($this->params['action'], $this->params['idThread']);
 						break;
-					case '10040':
-						echo toDoClass::modifyMedicines($this->params['action'], $this->params['JSONmedicinesArray']);
-						break;
 					case '10060':
-						echo toDoClass::insertMedicine($this->params['action'], $this->params['JSONData']);
-						break;
-					case '10070':
 						echo toDoClass::userConnection($this->params['action'], $this->params['JSONData']);
+						break;
+					case '10090':
+						echo toDoClass::checkIfExistNickname($this->params['action'], $this->params['userNick']);
 						break;
 					default:
 						echo "Action not correct, value: ".$this->params['action'];

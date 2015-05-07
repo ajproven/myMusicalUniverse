@@ -51,11 +51,11 @@ class toDoClass {
 			$listNameCreators = array();
 			foreach ($listThreadSearch as $thread) {
 				$listThreadsOutPut[]=$thread->getAll();
-				$dummy = userClass::findNameById($thread->getIdUser());
+				$dummy = userClass::findById($thread->getIdUser());
 				
 					//echo sizeof($dummy);
 				//print_r($dummy[0]);
-				$listNameCreators[] = $dummy[0]->getAll();
+				$listNameCreators[] = $dummy[0]->getUsername();
 				
 			//print_r ($listNameCreators);
 				
@@ -69,7 +69,7 @@ class toDoClass {
 			//print_r($subforumName);
 			$outPutData[1]=$listThreadsOutPut;
 			$outPutData[2]=$subforumName[0]->getName();
-			//$outPutData[3]=$listNameCreators[0];
+			$outPutData[3]=$listNameCreators;
 
 		}
 		//print_r($outPutData);
@@ -110,5 +110,60 @@ class toDoClass {
 		
 		return json_encode($outPutData);
 	}
+	static public function userConnection($action, $JSONData)
+	{
+		$userObj = json_decode(stripslashes($JSONData));
+
+		$outPutData = array();
+		$errors = array();
+		$outPutData[0]=true;
+		
+		$userList = userClass::findByUsernameAndPass($userObj->username, $userObj->password);
+		
+		if (count($userList)==0)
+		{
+			$outPutData[0]=false;
+			$errors[]="No user has found with these data";
+			$outPutData[1]=$errors;
+		}
+		else
+		{
+			foreach ( $userList as $user)
+			{	
+				$usersArray[]=$user->getAll();
+			}
+			
+			$outPutData[1]=$usersArray;
+
+		}
+		//print_r( $outPutData);
+
+		return json_encode($outPutData);
+	}
+
+	static function checkIfExistNickname($action, $userNick)
+	{
+		$outPutData = array();
+		$errors = array();
+		$outPutData[0]=true;
+		$listUsersSearch = array();
+
+		$listUsersSearch = userClass::checkIfExistNick( $userNick );
+
+		if (count($listUsersSearch)==0)
+		{
+			$outPutData[0]=true;
+			$errors[]=false;
+			$outPutData[1]=$errors;
+		}
+		else
+		{
+			$outPutData[0]=false;
+			$errors[]=true;
+			$outPutData[1]=$errors;
+		}
+		
+		return json_encode($outPutData);
+	}	
 }
 ?>

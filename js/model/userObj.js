@@ -21,7 +21,7 @@
  *
  */
 
- //id,idUser, nif, name, surname1, surname2, address, email, phone, birthDate, entryDate, dropOutDate
+ //id,username, password, name, surname1, surname2, type_user, email, address, bank_account, phone, image
 
 
 function userObj () 
@@ -38,9 +38,10 @@ function userObj ()
 	var address;
 	var bank_account;
 	var phone;
+	var image;
 	
 	//  Construct  //
-	this.construct = function (id,username,password,name,surname1,surname2,type_user,email,address,bank_account,phone) 
+	this.construct = function (id,username,password,name,surname1,surname2,type_user,email,address,bank_account,phone,image) 
 	{
 		this.setId(id);
 		this.setUserName(username);
@@ -53,6 +54,7 @@ function userObj ()
 		this.setAddress(address);
 		this.setBankAccount(bank_account);
 		this.setPhone(phone);
+		this.setImage(image);
 	}
 
 	//  Accessors  //
@@ -67,6 +69,7 @@ function userObj ()
 	this.setAddress = function (address) {this.address = address;}
 	this.setBankAccount = function (bank_account) {this.bank_account = bank_account;}
 	this.setPhone = function (phone) {this.phone = phone;}
+	this.setImage = function (image) {this.image = image;}
 
 	this.getId = function () {return this.id;}
 	this.getUserName = function () {return this.username;}
@@ -79,13 +82,14 @@ function userObj ()
 	this.getAddress = function () {return this.address;}
 	this.getBankAccount = function () {return this.bank_account;}
 	this.getPhone = function () {return this.phone;}
+	this.getImage = function () {return this.image;}
 	
 
 	//  Methods  //
 	this.toCookie = function ()
 	{
 		var cookieString ="id="+this.getId()+":username="+this.getUserName()+":password="+this.getPassword()+":name="+this.getName()+":surname1="+this.getSurname1();
-		cookieString +=":surname2="+this.getSurname2()+":type_user="+this.getTypeUser()+":email="+this.getEmail()+":address="+this.getAddress()+":bank_account="+this.getBankAccount()+":phone="+this.getPhone();
+		cookieString +=":surname2="+this.getSurname2()+":type_user="+this.getTypeUser()+":email="+this.getEmail()+":address="+this.getAddress()+":bank_account="+this.getBankAccount()+":phone="+this.getPhone()+":image="+this.getImage();
 		
 		return cookieString;
 	}
@@ -103,7 +107,8 @@ function userObj ()
 							  cookieValues.split(":")[7].split("=")[1],
 							  cookieValues.split(":")[8].split("=")[1],
 							  cookieValues.split(":")[9].split("=")[1],
-							  cookieValues.split(":")[10].split("=")[1]);
+							  cookieValues.split(":")[10].split("=")[1],
+							  cookieValues.split(":")[11].split("=")[1]);
 	}
 
 	this.arrayToString = function (arrayUserObj)
@@ -119,7 +124,7 @@ function userObj ()
 	this.toString = function () 
 	{
 		var clientString = "id="+this.getId()+" username="+this.getUserName()+" password="+this.getPassword()+" name="+this.getName();
-		clientString += " surname1="+this.getSurname1()+" surname2="+this.getSurname2()+" type_user="+this.getTypeUser()+" email="+this.getEmail()+" address="+this.getAddress()+" bank_account="+this.getBankAccount()+" phone="+this.getPhone();
+		clientString += " surname1="+this.getSurname1()+" surname2="+this.getSurname2()+" type_user="+this.getTypeUser()+" email="+this.getEmail()+" address="+this.getAddress()+" bank_account="+this.getBankAccount()+" phone="+this.getPhone()+" image="+this.getImage();
 
 		return clientString;
 	}
