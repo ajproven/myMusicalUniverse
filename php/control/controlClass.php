@@ -46,8 +46,8 @@ class controlClass {
 					case '3':
 						echo toDoClass::getThreadsBySubforum($this->params['action'],$this->params['idSubforum']);
 						break;
-					case '10031':
-						echo toDoClass::searchDiseases($this->params['action'], $this->params['idDisease']);
+					case '4':
+						echo toDoClass::getThreadContent($this->params['action'], $this->params['idThread']);
 						break;
 					case '10040':
 						echo toDoClass::modifyMedicines($this->params['action'], $this->params['JSONmedicinesArray']);

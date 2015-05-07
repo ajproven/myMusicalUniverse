@@ -34,6 +34,7 @@ $(document).ready(function (){
 
 		this.getSubforums = function (){
 			this.subforumObjArray = new Array();
+			var outPutData = new Array();
 			$.ajax({
 				url:"php/control/control.php",
 				type: "POST",
@@ -65,6 +66,7 @@ $(document).ready(function (){
 			var id= readUrlVar()["f"];
 			this.threadObjArray = new Array();
 			this.userObjArray = new Array();
+			var outPutData = new Array();
 			$.ajax({
 				url:"php/control/control.php",
 				type: "POST",
@@ -85,17 +87,28 @@ $(document).ready(function (){
 					this.thread.construct(outPutData[1][i].id,outPutData[1][i].idUser ,outPutData[1][i].title ,outPutData[1][i].entryDate ,outPutData[1][i].content,outPutData[1][i].totalReplies,outPutData[1][i].idSubforum);
 					this.threadObjArray.push(this.thread);
 					//var fecha = this.threadObjArray[i].getEntryDate();
-					}
-			/*for (var i = 0; i < outPutData[2].length; i++) {
+			}
+			/*for (var j = 0; j < outPutData[2].length; j++) {
+					this.subforum = new subforumObj();
+					
+					this.subforum.construct(outPutData[2][j].id,outPutData[2][j].name,outPutData[2][j].description,outPutData[2][j].image,outPutData[2][j].type);
+					this.subforumObjArray.push(this.subforum);
+					alert(this.subforumObjArray[jjj]);
+					}*/
+					$scope.subforumName=outPutData[2];
+
+			}/*
+			for (var j = 0; j < outPutData[2].length; i++) {
 					this.user = new userObj();
-					this.user.construct(outPutData[2][i].id,outPutData[2][i].name);
+					this.user.construct(outPutData[1][2][j].id,outPutData[1][i].idUser ,outPutData[1][i].title ,outPutData[1][i].entryDate ,outPutData[1][i].content,outPutData[1][i].totalReplies,outPutData[1][i].idSubforum);
 					this.userObjArray.push(this.user);
 					//var fecha = this.threadObjArray[i].getEntryDate();
-					}*/
-			}else{
+			}*/
+			
+		//	}else{
 
 			
-			}
+		//	}
 		//	var name = readUrlVar()["n"];
 
 		}
@@ -108,7 +121,48 @@ $(document).ready(function (){
 		this.redirectToThreadById = function(id,content){
 			//var name = object.getName();
 			//var id = object.getId();
+			//alert(content);
 			 window.open("thread.html?t="+id,"_self");
+
+		}
+		this.getThreadContentById = function(){
+			
+			var id= readUrlVar()["t"];
+			this.threadReplyObjArray = new Array();
+			//this.userObjArray = new Array();
+			$.ajax({
+				url:"php/control/control.php",
+				type: "POST",
+				data: "action=4&idThread="+id,
+				dataType: "json",
+				async: false,
+				success: function (response) {
+					outPutData = response;
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert("There has been an error while connecting to the server, try later");
+					console.log(xhr.status+"\n"+thrownError);
+				}
+			});	
+			if(outPutData[0]){
+			for (var i = 0; i < outPutData[1].length; i++) {
+			//		this.thread = new threadObj();
+			//		this.thread.construct(outPutData[1][i].id,outPutData[1][i].idUser ,outPutData[1][i].title ,outPutData[1][i].entryDate ,outPutData[1][i].content,outPutData[1][i].totalReplies,outPutData[1][i].idSubforum);
+			//		this.threadObjArray.push(this.thread);
+			//alert(outPutData[1]);
+					//var fecha = this.threadObjArray[i].getEntryDate();
+					}
+			/*for (var i = 0; i < outPutData[2].length; i++) {
+					this.user = new userObj();
+					this.user.construct(outPutData[2][i].id,outPutData[2][i].name);
+					this.userObjArray.push(this.user);
+					//var fecha = this.threadObjArray[i].getEntryDate();
+					}*/
+			}else{
+
+			
+			}
+
 		}
 		
 });

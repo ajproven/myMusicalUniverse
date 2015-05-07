@@ -157,6 +157,20 @@ class subforumClass {
 		return subforumClass::findByQuery( $cons );
     }
 
+
+      /**
+     * findById()
+     * It runs a query and returns an object array
+     * @param id
+     * @return object with the query results
+    */
+    public static function findNameById( $id ) {
+    $cons = "select * from `".subforumClass::$tableName."` where ".subforumClass::$colNameId." =".$id;
+    //echo $cons;
+    return subforumClass::findByQuery( $cons );
+    }
+
+
     /**
 	 * create()
 	 * insert a new row into the database

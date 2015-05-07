@@ -269,8 +269,8 @@ class userClass {
      * @return object with the query results
     */
     public static function findNameById( $id ) {
-    $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameId." = \"".$id."\"";
-
+    $cons = "select * from `".userClass::$tableName."` where ".userClass::$colNameId." =".$id;
+    //echo $cons;
     return userClass::findByQuery( $cons );
     }
 
