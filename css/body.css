@@ -42,5 +42,41 @@ border-radius: 10px;
 
   background-color: lightgrey;
   padding-bottom: 1%;
+  padding-left: 2%;
+
   
+}
+#userLink{
+	color:black;
+	font-size: 12px;
+	font-weight: bold;
+}
+.userZone{
+
+background-color: #DFE6F5;
+}
+
+#numMessageDiv{
+	border-left:solid 1px grey;	
+}
+#numMessage {
+	position:relative;
+	float:right;
+	
+	color:black;
+	font-size: 12px;
+	font-weight: bold;
+}
+#threadSingle{
+
+float:left;
+border:solid 1px black;
+}
+.contentMessage{
+
+background-color: white;
+}
+.userLink{
+	margin-bottom: 0.25%;
+	font-weight: bold;
 }

@@ -67,6 +67,7 @@ $(document).ready(function (){
 					//TODO...
 					$scope.userConnected = true;
 					$("#loginModal").modal("hide");
+					location.reload();
 				}
 				else alert("This browser does not support session variables");
 
@@ -90,13 +91,15 @@ $(document).ready(function (){
 			
 			if(typeof(Storage))
 			{
-				this.user = JSON.parse(sessionStorage.getItem("userConnected"));
+				var user = JSON.parse(sessionStorage.getItem("userConnected"));
 				
-				if(this.user != undefined)
+				if(user != undefined)
 				{
 					//window.open("mainWindow.html","_self");
 					$scope.userConnected = true;
-					alert("Ok - there are a session active with user: "+this.user.username);
+					$scope.userName = user.username;
+					$scope.userId = user.id;
+					
 				}
 			}
 			else alert("This browser does not support session variables");
@@ -111,7 +114,7 @@ $(document).ready(function (){
 				//sessionStorage.clear();
 				
 				$scope.userConnected = false;	
-				location.reload();			
+				//location.reload();			
 			}
 			else alert("This browser does not support session variables");
 				
@@ -126,10 +129,12 @@ $(document).ready(function (){
 		this.subforum = new subforumObj();
 		this.thread = new threadObj();
 		this.user = new userObj();
+		this.threadReply = new threadReplyObj();
+
 		this.subforumObjArray = new Array();
 		this.threadObjArray = new Array();
 		this.userObjArray = new Array();
-		
+		this.threadContentArray = new Array();		
 		
 
 		//Scope variables
@@ -168,6 +173,36 @@ $(document).ready(function (){
 					}				
 		}
 
+		this.getThreadContent = function(){
+			var id= readUrlVar()["t"];
+			this.threadContentArray = new Array();
+			//alert(id);
+
+			var outPutData = new Array();
+			$.ajax({
+				url:"php/control/control.php",
+				type: "POST",
+				data: "action=4&idThread="+id,
+				dataType: "json",
+				async: false,
+				success: function (response) {
+					outPutData = response;
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert("There has been an error while connecting to the server, try later");
+					console.log(xhr.status+"\n"+thrownError);
+				}
+			});		
+			/*
+				//var subforumObjArray = new Array();		
+					for (var i = 0; i < outPutData.length; i++) {
+					this.subforum = new subforumObj();
+					
+					this.subforum.construct(outPutData[i].id,outPutData[i].name,outPutData[i].description,outPutData[i].image,outPutData[i].type);
+					this.subforumObjArray.push(this.subforum);
+			*/		
+
+		}
 		
 		this.getThreadsById = function(){
 			//variable para coger el id
@@ -190,34 +225,35 @@ $(document).ready(function (){
 				}
 			});	
 			if(outPutData[0]){
+				$scope.threadUserRelationship=new Array();
+
 			for (var i = 0; i < outPutData[1].length; i++) {
 					this.thread = new threadObj();
 					this.thread.construct(outPutData[1][i].id,outPutData[1][i].idUser ,outPutData[1][i].title ,outPutData[1][i].entryDate ,outPutData[1][i].content,outPutData[1][i].totalReplies,outPutData[1][i].idSubforum);
 					this.threadObjArray.push(this.thread);
 					//var fecha = this.threadObjArray[i].getEntryDate();
 			}
-			/*for (var j = 0; j < outPutData[2].length; j++) {
-					this.subforum = new subforumObj();
-					
-					this.subforum.construct(outPutData[2][j].id,outPutData[2][j].name,outPutData[2][j].description,outPutData[2][j].image,outPutData[2][j].type);
-					this.subforumObjArray.push(this.subforum);
-					alert(this.subforumObjArray[jjj]);
-					}*/
+			
 					$scope.subforumName=outPutData[2];
 
-			}/*
-			for (var j = 0; j < outPutData[2].length; i++) {
+			for (var j = 0; j < outPutData[3].length; j++) {
 					this.user = new userObj();
-					this.user.construct(outPutData[1][2][j].id,outPutData[1][i].idUser ,outPutData[1][i].title ,outPutData[1][i].entryDate ,outPutData[1][i].content,outPutData[1][i].totalReplies,outPutData[1][i].idSubforum);
+					this.user.construct(outPutData[3][j].id,outPutData[3][j].username,outPutData[3][j].password,outPutData[3][j].name,outPutData[3][j].surname1,outPutData[3][j].surname2,outPutData[3][j].type_user,outPutData[3][j].email,outPutData[3][j].address,outPutData[3][j].bank_account,outPutData[3][j].phone,outPutData[3][j].image);	
 					this.userObjArray.push(this.user);
-					//var fecha = this.threadObjArray[i].getEntryDate();
-			}*/
+				
+				for(var h=0;h<this.threadObjArray.length;h++){
+
+					if(this.userObjArray[h].getId()== this.thread.getIdUser()){
+						$scope.threadUserRelationship.push(this.userObjArray[h].getUserName());
+						
+						break;
+					}
+				}
+			}
 			
-		//	}else{
+			}
 
 			
-		//	}
-		//	var name = readUrlVar()["n"];
 
 		}
 		this.redirectToSubforumById = function(object){
@@ -233,11 +269,11 @@ $(document).ready(function (){
 			 window.open("thread.html?t="+id,"_self");
 
 		}
-		this.getThreadContentById = function(){
+		this.getThreadContent = function(){
 			
 			var id= readUrlVar()["t"];
-			this.threadReplyObjArray = new Array();
-			//this.userObjArray = new Array();
+			this.threadContentArray = new Array();
+			this.userObjArray = new Array();
 			$.ajax({
 				url:"php/control/control.php",
 				type: "POST",
@@ -253,19 +289,31 @@ $(document).ready(function (){
 				}
 			});	
 			if(outPutData[0]){
+				$scope.replyUserName=new Array();
+				//$scope.replyUserImage = new Array();
 			for (var i = 0; i < outPutData[1].length; i++) {
-			//		this.thread = new threadObj();
-			//		this.thread.construct(outPutData[1][i].id,outPutData[1][i].idUser ,outPutData[1][i].title ,outPutData[1][i].entryDate ,outPutData[1][i].content,outPutData[1][i].totalReplies,outPutData[1][i].idSubforum);
-			//		this.threadObjArray.push(this.thread);
-			//alert(outPutData[1]);
-					//var fecha = this.threadObjArray[i].getEntryDate();
-					}
-			/*for (var i = 0; i < outPutData[2].length; i++) {
+					this.threadReply = new threadReplyObj();
+					this.threadReply.construct(outPutData[1][i].id,outPutData[1][i].idUser ,outPutData[1][i].idThread ,outPutData[1][i].entryDate ,outPutData[1][i].content,outPutData[1][i].numberReply);
+					this.threadContentArray.push(this.threadReply);
+			}
+					
+					$scope.threadName=outPutData[2];
+
+			for (var j = 0; j < outPutData[3].length; j++) {
 					this.user = new userObj();
-					this.user.construct(outPutData[2][i].id,outPutData[2][i].name);
+					this.user.construct(outPutData[3][j].id,outPutData[3][j].username,outPutData[3][j].password,outPutData[3][j].name,outPutData[3][j].surname1,outPutData[3][j].surname2,outPutData[3][j].type_user,outPutData[3][j].email,outPutData[3][j].address,outPutData[3][j].bank_account,outPutData[3][j].phone,outPutData[3][j].image);	
 					this.userObjArray.push(this.user);
-					//var fecha = this.threadObjArray[i].getEntryDate();
-					}*/
+				
+				for(var h=0;h<this.threadContentArray.length;h++){
+
+					if(this.userObjArray[h].getId()== this.threadReply.getIdUser()){
+						$scope.replyUserName.push(this.userObjArray[h]);
+						//$scope.replyUserImage.push(this.userObjArray[h].getImage());
+						break;
+					}
+				}
+			}	
+			
 			}else{
 
 			
@@ -315,6 +363,17 @@ $(document).ready(function (){
 			
 		  },
 		  controllerAs: 'subforumForm'
+		};
+	});
+	//This template shows all data in property this.medicinesArray of the constructor for modify.
+	myMusicUniverseApp.directive("threadData", function (){
+		return {
+		  restrict: 'E',
+		  templateUrl:"templates/thread-content.html",
+		  controller:function(){
+			
+		  },
+		  controllerAs: 'threadData'
 		};
 	});
 	

@@ -6,7 +6,7 @@
  * version 2015/05/04
  */
 
-require_once "BDProject.php";
+require_once "BDmyMusicalU.php";
 
 
 class threadReplyClass {
@@ -148,7 +148,7 @@ class threadReplyClass {
     */
     public static function findByQuery( $cons ) {
 	//Connection with the database
-		$conn = new BDProject();
+		$conn = new BDmyMusicalU();
 		if (mysqli_connect_errno()) {
     		printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
     		exit();
@@ -180,7 +180,7 @@ class threadReplyClass {
     public static function findById($idThread) {
     	
 
-    	$cons = "select * from `".threadReplyClass::$tableName."` where ".threadReplyClass::$colNameIdThread." = '".$idThread."'";
+    	$cons = "select * from `".threadReplyClass::$tableName."` where ".threadReplyClass::$colNameIdThread." = '".$idThread."' ORDER BY ".threadReplyClass::$colNameNumberReply." ASC" ;
 
 		return threadReplyClass::findByQuery( $cons );
     }
@@ -193,7 +193,7 @@ class threadReplyClass {
     
     public function create() {
 		//Connection with the database
-		$conn = new BDProject();
+		$conn = new BDmyMusicalU();
 		if (mysqli_connect_errno()) {
 			printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
 				exit();

@@ -19,7 +19,7 @@
  //id,idUser, nif, name, surname1, surname2, address, email, phone, birthDate, entryDate, dropOutDate
 
 
-function threadObj () 
+function threadReplyObj () 
 {
 	//  Attributs  //
 	var id;
@@ -45,15 +45,15 @@ function threadObj ()
 	//  Accessors  //
 	this.setId = function (id) {this.id = id;}
 	this.setIdUser = function (idUser) {this.idUser = idUser;}
-	this.setTitle = function (idThread) {this.idThread = idThread;}
+	this.setIdThread = function (idThread) {this.idThread = idThread;}
 	this.setEntryDate = function (entryDate) {this.entryDate = entryDate;}
 	this.setContent = function (content) {this.content = content;}
-	this.setNumReply = function (totalReplies) {this.numReply = numReply;}
+	this.setNumReply = function (numReply) {this.numReply = numReply;}
 	
 
 	this.getId = function () {return this.id;}
 	this.getIdUser = function () {return this.idUser;}
-	this.getTitle = function () {return this.title;}
+	this.getIdThread = function () {return this.idThread;}
 	this.getEntryDate = function () {return this.entryDate;}
 	this.getContent = function () {return this.content;}
 	this.getNumReply = function () {return this.numReply;}
@@ -61,7 +61,7 @@ function threadObj ()
 	
 	this.toString = function () 
 	{
-		var threadsString = "id="+this.getId();
+		var threadsString = "id="+this.getId()+" idUser="+this.getIdUser()+" idThread="+this.getIdThread()+" entryDate="+this.getEntryDate()+" content= "+this.getContent()+" numReply="+this.getNumReply();
 		
 
 		return threadsString;

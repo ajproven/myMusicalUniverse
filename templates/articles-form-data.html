@@ -1,0 +1,18 @@
+<form role="form" class="articleForm" name="articleForm" ng-submit="articleForm.$valid && myMusicalUniverseSessionCtrl.articleActions()" novalidate>
+
+       <div class="row" style="border: 1px solid black;" ng-repeat="articleObj in myMusicalUniverseMainCtrl.articlesArray">
+            <div class="col-sm-4" style="padding:5px;">
+                <img class="articleImg" id="articleImage{{$index}}" src="{{articleObj.getImage()}}" width="250" height="152" />
+            </div>   
+            <div class="col-sm-8" style="padding:5px;">  
+                    <a href="#" >{{articleObj.getTitle()}}</a><br/>
+                    {{articleObj.getContent()}}
+            </div>
+            <div class="col-sm-12" style="padding:5px;">  
+                    By <a href="#" >{{userArticleArray[$index].getUserName()}}</a><br/>
+                  
+            </div>
+                   
+               
+        </div>
+</form>

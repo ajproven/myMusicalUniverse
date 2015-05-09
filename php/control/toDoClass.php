@@ -7,6 +7,7 @@ require_once "../model/subforumClass.php";
 require_once "../model/threadClass.php";
 require_once "../model/threadReplyClass.php";
 require_once "../model/userClass.php";
+require_once "../model/articleClass.php";
 
 class toDoClass {
 	/*static public function login($action, $username, $password)
@@ -52,21 +53,12 @@ class toDoClass {
 			foreach ($listThreadSearch as $thread) {
 				$listThreadsOutPut[]=$thread->getAll();
 				$dummy = userClass::findById($thread->getIdUser());
+			
+				$listNameCreators[] = $dummy[0]->getAll();
 				
-					//echo sizeof($dummy);
-				//print_r($dummy[0]);
-				$listNameCreators[] = $dummy[0]->getUsername();
-				
-			//print_r ($listNameCreators);
-				
-				//foreach ($listNameCreators as $list) {
-				
-					//print_r($listNameCreators);
-				//}
-				
+			
 			}
-			//print_r($listNameCreators);
-			//print_r($subforumName);
+			
 			$outPutData[1]=$listThreadsOutPut;
 			$outPutData[2]=$subforumName[0]->getName();
 			$outPutData[3]=$listNameCreators;
@@ -76,12 +68,91 @@ class toDoClass {
 		return json_encode($outPutData);
 
 	}
+
+	static function checkIfExistUserName($action, $userName)
+	{
+		$outPutData = array();
+		$errors = array();
+		$outPutData[0]=true;
+		$listUsersSearch = array();
+
+		$listUsersSearch = userClass::checkIfExistUserName( $userName );
+
+		if (count($listUsersSearch)==0)
+		{
+			$outPutData[0]=true;
+			$errors[]=false;
+			$outPutData[1]=$errors;
+		}
+		else
+		{
+			$outPutData[0]=false;
+			$errors[]=true;
+			$outPutData[1]=$errors;
+		}
+		
+		return json_encode($outPutData);
+	}
+	static public function signUpUserData($action, $userObj) //NEW METHOD TO SIGN UP NEW USER IN DATABASE :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: <===
+	{
+		$userArray = json_decode(stripslashes($userObj));
+		
+		$user = new userClass();
+
+	    $user->setAll($userArray->id, $userArray->username, $userArray->password, $userArray->name, $userArray->surname1, $userArray->surname2, $userArray->type_user, $userArray->email, $userArray->address, $userArray->bank_account, $userArray->phone, $userArray->image);
+
+	    $user->create();
+
+		echo true;
+		//echo json_encode($medicine->toString());
+	}
+
+	static public function searchArticles($action)
+	{
+		
+		$outPutData = array();
+		$errors = array();
+		$articles = array();
+		$articlesArray = array();
+		$outPutData[0]=true;
+		
+		$articles = articleClass::findAll();
+
+			
+		if(count($articles)==0)
+		{
+			$outPutData[0]=false;
+			$errors="There are no articles in database";
+			$outPutData[1]=$errors;
+		}
+		else
+		{
+			$listNameUsers = array();
+
+			foreach ( $articles as $article)
+			{
+
+				$articlesArray[]=$article->getAll();
+				$usersArray = userClass::findUserById($article->getIdUser());
+				$listNameUsers[] = $usersArray[0]->getAll();
+			}
+			
+			
+			$outPutData[1]=$articlesArray;
+			$outPutData[2]=$listNameUsers;
+		}
+
+		return json_encode($outPutData);	
+	}	
+
 	static public function getThreadContent($action,$idThread){
 
 		$outPutData = array();
 		$errors = array();
 		$outPutData[0]=true;
 		$listThreadContent = threadReplyClass::findById($idThread);
+		$listThreadTitle = threadClass::findTitleById($idThread);
+		
 		
 		 if (count($listThreadContent)==0)
 		{
@@ -95,7 +166,11 @@ class toDoClass {
 			//$listUserOutPut = array();
 			foreach ($listThreadContent as $threadReply) {
 				$listThreadsOutPut[]=$threadReply->getAll();
-				//$listNameCreators = userClass::findNameById($thread->getIdUser());
+				$dummy = userClass::findById($threadReply->getIdUser());
+				
+					//echo sizeof($dummy);
+				//print_r($dummy[0]);
+				$listNameCreators[] = $dummy[0]->getAll();
 				//print_r ($listNameCreators[0]);
 				
 				//foreach ($listNameCreators as $list) {
@@ -106,6 +181,9 @@ class toDoClass {
 			}
 
 			$outPutData[1]=$listThreadsOutPut;
+			$outPutData[2]=$listThreadTitle[0]->getTitle();
+			$outPutData[3]=$listNameCreators;
+
 		}
 		
 		return json_encode($outPutData);
@@ -165,5 +243,7 @@ class toDoClass {
 		
 		return json_encode($outPutData);
 	}	
+
+
 }
 ?>
