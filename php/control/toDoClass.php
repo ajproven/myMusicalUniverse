@@ -152,6 +152,8 @@ class toDoClass {
 		$outPutData[0]=true;
 		$listThreadContent = threadReplyClass::findById($idThread);
 		$listThreadTitle = threadClass::findTitleById($idThread);
+
+		//$subforumName = subforumClass::findNameById();
 		
 		
 		 if (count($listThreadContent)==0)
@@ -167,22 +169,16 @@ class toDoClass {
 			foreach ($listThreadContent as $threadReply) {
 				$listThreadsOutPut[]=$threadReply->getAll();
 				$dummy = userClass::findById($threadReply->getIdUser());
-				
-					//echo sizeof($dummy);
-				//print_r($dummy[0]);
 				$listNameCreators[] = $dummy[0]->getAll();
-				//print_r ($listNameCreators[0]);
-				
-				//foreach ($listNameCreators as $list) {
-					//$outPutData[2]=$listNameCreators[0]->getAll();
-					//print_r($list);
-				//}
 				
 			}
 
 			$outPutData[1]=$listThreadsOutPut;
-			$outPutData[2]=$listThreadTitle[0]->getTitle();
+			$outPutData[2]=$listThreadTitle[0]->getAll();
+			$subforumName = subforumClass::findNameById($listThreadTitle[0]->getIdSubforum());
+			//$subforumName[] = $dummy1[0]->getAll();
 			$outPutData[3]=$listNameCreators;
+			$outPutData[4]=$subforumName[0]->getAll();
 
 		}
 		
