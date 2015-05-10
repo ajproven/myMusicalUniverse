@@ -2,7 +2,7 @@
 <form name="threadForm" ng-submit="newThreadForm.$valid && myMusicalUniverseForumCtrl" novalidate>
 <h3><a href="" ng-click="myMusicalUniverseForumCtrl.redirectToThreadById()">{{subforumName}}</a></h3>
 <div ng-if="userConnected">
-	<button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.newThread(idUserConnected)" type="button">New thread</button>
+	<button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.newThread(idUserConnected,subforumId)" type="button">New thread</button>
 </div>
 <table class="table table-bordered">
 <tr>

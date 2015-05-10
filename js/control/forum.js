@@ -319,6 +319,7 @@ $(document).ready(function (){
 		this.getThreadsById = function(){
 			//variable para coger el id
 			var id= readUrlVar()["f"];
+			$scope.subforumId=id;
 			this.threadObjArray = new Array();
 			this.userObjArray = new Array();
 			var outPutData = new Array();
@@ -347,6 +348,7 @@ $(document).ready(function (){
 			}
 			
 					$scope.subforumName=outPutData[2];
+
 
 			for (var j = 0; j < outPutData[3].length; j++) {
 					this.user = new userObj();
@@ -382,12 +384,30 @@ $(document).ready(function (){
 			 window.open("thread.html?t="+id,"_self");
 
 		}
-		this.newThread = function(idUser){
-			//var name = object.getName();
-			//var id = object.getId();
+		this.newThread = function(idUser,idSubforum){
 			
-			window.open("newReply.html","_self");
+			window.open("newReply.html?f="+idSubforum,"_self");
+		}
 
+		this.submitNewThread = function(idUser){
+			var idSubforum= readUrlVar()["f"];
+			alert(idUser);
+			this.threadContentArray = new Array();
+			this.threadObjArray = new Array();
+			/*$.ajax({
+				url:"php/control/control.php",
+				type: "POST",
+				data: "action=5&idSubforum="+idSubforum+"&idUser="+idUser,
+				dataType: "json",
+				async: false,
+				success: function (response) {
+					outPutData = response;
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert("There has been an error while connecting to the server, try later");
+					console.log(xhr.status+"\n"+thrownError);
+				}
+			});*/	
 		}
 		this.getThreadContent = function(){
 			
@@ -447,6 +467,8 @@ $(document).ready(function (){
 			
 			}
 		}
+
+
 		
 });
 	//This directive it's necesary to use the calendar plugin in the templates.

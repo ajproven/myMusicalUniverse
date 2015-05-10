@@ -37,53 +37,60 @@
     <!--<script src="js/frameWorks/jQuery/jQuery.js" type="text/javascript" xml:space="preserve"></script>-->
     <!--tinymce-->
     <script type="text/javascript" src="tinymce/js/tinymce/tinymce.min.js"></script>
-	<script type="text/javascript">
-tinymce.PluginManager.add('example', function(editor, url) {
+<script type="text/javascript">
+tinymce.PluginManager.add('summon', function(editor, url) {
     // Add a button that opens a window
-	editor.addButton('example', {
-		text: 'Summon',
-		icon: false,
-		onclick: function() {
-			// Open window
-			editor.windowManager.open({
-				title: 'Summon user',
-				body: [
-					{type: 'textbox', name: 'username', label: 'Username'}
-				],
-				onsubmit: function(e) {
-					// Insert content when the window form is submitted
-					editor.insertContent("@"+e.data.username);
-				}
-			});
-		}
-	});
+    editor.addButton('summon', {
+        text: 'Summon',
+        icon: false,
+        onclick: function() {
+            // Open window
+            editor.windowManager.open({
+                title: 'Summon user',
+                body: [
+                    {type: 'textbox', name: 'username', label: 'Username'}
+                ],
+                onsubmit: function(e) {
+                    // Insert content when the window form is submitted
+                    editor.insertContent('@'+e.data.username);
+                }
+            });
+        }
+    });
 
-	// Adds a menu item to the tools menu
-	editor.addMenuItem('example', {
-		text: 'Summon',
-		context: 'tools',
-		onclick: function() {
-			// Open window with a specific url
-			editor.windowManager.open({
-				title: 'TinyMCE site',
-				url: 'http://www.tinymce.com',
-				width: 400,
-				height: 300,
-				buttons: [{
-					text: 'Close',
-					onclick: 'close'
-				}]
-			});
-		}
-	});
+    // Adds a menu item to the tools menu
+    editor.addMenuItem('summon', {
+        text: 'summon plugin',
+        context: 'tools',
+        onclick: function() {
+            // Open window with a specific url
+            editor.windowManager.open({
+                title: 'TinyMCE site',
+                url: 'http://www.tinymce.com',
+                width: 800,
+                height: 600,
+                buttons: [{
+                    text: 'Close',
+                    onclick: 'close'
+                }]
+            });
+        }
+    });
 });
 
 tinymce.init({
     selector: "textarea",
-    plugins: "example",
-    toolbar: "example undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-});
+    plugins: [
+            "summon advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste youtube"
+            ],
+    toolbar: "summon insertfile | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image| youtube",
+    height:400
+    });
 </script>
+
+
 
     <!-- Datepicker-->
     <!--<script src="js/frameWorks/jQuery/jquery.min.js" type = "text/javascript"></script>-->
@@ -111,7 +118,7 @@ tinymce.init({
     <header-form id="headerForm"></header-form>
   </div>
 
-  <!--<div class="mainSection" ng-controller="myMusicalUniverseForumController as myMusicalUniverseForumCtrl" ng-init="myMusicalUniverseForumCtrl.getThreadContent()">-->
+  <div class="mainSection" ng-controller="myMusicalUniverseForumController as myMusicalUniverseForumCtrl">
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
@@ -119,20 +126,38 @@ tinymce.init({
             <login-form id="LoginForm"></login-form>
           </div>
             <!--tinymce-->
-            <div id="newThreadForm" class="col-sm-8	">
-            Title:<br>
-            <input type="text" id="titleThread"/>
-            <form method="post">
-    		<textarea></textarea>
+            <form name="newReply" ng-submit="myMusicalUniverseForumCtrl.submitNewThread(idUserConnected)">
+            <div id="newThreadForm" class="col-sm-10">
+            
+            <div class="col-sm-12">Title:<input type="text" id="titleThread" class="form-control" ng-model="myMusicalUniverseForumCtrl.thread.title" required/></div>
+            <div class="col-sm-12">
+            <textarea id="content" name="content" ng-model="myMusicalUniverseForumCtrl.thread.content"></textarea>
+            </div>
+            <div class="col-sm-12"><input type="submit" class="btn btn-primary pull-left" value="Create new thread" /></div>
+            </div>
 			</form>	
-
             </div>
             
           
         </div>
-      <!--</div>-->
+      </div>
     </div>
   </div>
 </div>   
 </body>
 </html>
+
+<!--
+<form class="login" name="userConnection" ng-submit="userConnection.$valid && myMusicalUniverseSessionCtrl.login()" novalidate>
+	<div id="login_div">
+		<table>
+			<tr><td>Nickname: </td><td><input type="text" id="user" name="user" ng-model="loginCntrl.nickname" ng-pattern="" required/></td></tr>
+			<tr><td>Password: </td><td><input type="password" id="user" name="password" ng-model="loginCntrl.password" required/></td></tr>
+		</table>
+
+		<input type="submit" class="btn btn-primary pull-left" value="Login"/>
+		<input type="button" class="btn btn-primary pull-left" value="Reset" ng-click="location.reload()"/><br/>
+		
+	</div>
+	</form>
+-->
