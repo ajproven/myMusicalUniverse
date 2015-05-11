@@ -83,11 +83,15 @@ tinymce.init({
     plugins: [
             "summon advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table contextmenu paste youtube"
+            "insertdatetime media table contextmenu paste youtube paste code"
             ],
-    toolbar: "summon insertfile | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image| youtube",
-    height:400
+    toolbar: "summon insertfile | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image| youtube | paste code",
+    height:400,
+    force_br_newlines : true,
+    forced_root_block : "",
+    entity_encoding : "raw",
     });
+
 </script>
 
 
@@ -127,17 +131,14 @@ tinymce.init({
             <login-form id="LoginForm"></login-form>
           </div>
             <!--tinymce-->
-            <form name="newReply" ng-submit="myMusicalUniverseForumCtrl.submitNewThread(idUserConnected)">
+            <form name="newThread" ng-submit="myMusicalUniverseForumCtrl.submitNewThreadReply(idUserConnected)">
             <div id="newThreadForm" class="col-sm-10">
-            
-            <div class="col-sm-12">Title:<input type="text" id="titleThread" class="form-control" ng-model="myMusicalUniverseForumCtrl.thread.title" required/></div>
             <div class="col-sm-12">
-            <textarea id="content" ng-model="myMusicalUniverseForumCtrl.thread.title"></textarea>
+            <textarea id="contentText"></textarea>
             </div>
-            
             <div class="col-sm-12"><input type="submit" class="btn btn-primary pull-left" value="Create new thread" /></div>
             </div>
-			</form>	
+            </form> 
             </div>
             
           

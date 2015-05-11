@@ -264,7 +264,7 @@ $(document).ready(function (){
 	});
 
 
-	myMusicUniverseApp.controller("myMusicalUniverseForumController", function($scope){
+	myMusicUniverseApp.controller("myMusicalUniverseForumController",['$scope','$sce', function($scope,$sce){
 	//
 
 		//======== PROPERTIES ===========//
@@ -372,8 +372,11 @@ $(document).ready(function (){
 					this.threadObjArray.push(this.thread);
 					//var fecha = this.threadObjArray[i].getEntryDate();
 			}
-			
-					$scope.subforumName=outPutData[2];
+					
+					this.subforum = new subforumObj();
+					this.subforum.construct(outPutData[2].id,outPutData[2].name,outPutData[2].description,outPutData[2].image,outPutData[2].type);
+					this.subforumObjArray.push(this.subforum);
+ 					$scope.subforumName=this.subforumObjArray[0];
 
 
 			for (var j = 0; j < outPutData[3].length; j++) {
@@ -447,8 +450,13 @@ $(document).ready(function (){
 					console.log(xhr.status+"\n"+thrownError);
 				}
 			});
+			alert("Thread created successfully");
+			window.open("subforum.html?f="+idSubforum,"_self");
 			
 		}
+
+
+
 		this.quote = function(idUserQuoter,idMessage){
 			alert("idquoter="+idUserQuoter);
 			alert("idmessage="+idMessage);
@@ -456,11 +464,46 @@ $(document).ready(function (){
 		}
 		this.editMessage = function(idMessage){
 
-
 		}
-		this.newThreadReply = function(idUserConnected){
-			alert(idUserConnected);
+		this.newThreadReply = function(){
+			var id= readUrlVar()["t"];
+			window.open("newReply.html?t="+id,"_self");
+		}
 
+		this.submitNewThreadReply = function(idUser){
+			tinyMCE.triggerSave();
+			var idSubforum= readUrlVar()["f"];
+			var outPutdata = new Array();
+			var lala = $('#contentText').val();
+			tinyMCE.triggerSave();
+				
+
+			this.threadReply.setId(0);
+			this.threadReply.setIdUser(idUser);
+			this.threadReply.setIdThread(idThread);
+			this.threadReply.setContent(lala);
+			this.threadReply.setEntryDate(new Date());
+			this.threadReply.setNumberReply(0);
+			
+			this.threadReply = angular.copy(this.threadReply);
+			$.ajax({
+				url:"php/control/control.php",
+				type: "POST",
+				data: "action=7&threadReplyObject="+JSON.stringify(this.threadReply),
+				dataType: "json",
+				async: false,
+				success: function (response) {
+					outPutData = response;
+					
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert("There has been an error while connecting to the server, try later");
+					console.log(xhr.status+"\n"+thrownError);
+				}
+			});
+			alert("Thread created successfully");
+			window.open("subforum.html?f="+idSubforum,"_self");
+			
 		}
 
 		this.getThreadContent = function(){
@@ -469,6 +512,7 @@ $(document).ready(function (){
 			this.threadContentArray = new Array();
 			this.userObjArray = new Array();
 			this.threadObjArray = new Array();
+			
 			$.ajax({
 				url:"php/control/control.php",
 				type: "POST",
@@ -483,14 +527,20 @@ $(document).ready(function (){
 					console.log(xhr.status+"\n"+thrownError);
 				}
 			});	
+
 			if(outPutData[0]){
 				$scope.replyUserName=new Array();
+				$scope.replyContent=new Array();
 				//$scope.replyUserImage = new Array();
 			for (var i = 0; i < outPutData[1].length; i++) {
 					this.threadReply = new threadReplyObj();
 					this.threadReply.construct(outPutData[1][i].id,outPutData[1][i].idUser ,outPutData[1][i].idThread ,outPutData[1][i].entryDate ,outPutData[1][i].content,outPutData[1][i].numberReply);
 					this.threadContentArray.push(this.threadReply);
+
+					$scope.replyContent.push($sce.trustAsHtml(this.threadContentArray[i].getContent()));
 			}
+
+			
 
 					//for(var u=0;u<outPutData[2].length;u++){
 					this.thread = new threadObj();
@@ -524,7 +574,7 @@ $(document).ready(function (){
 
 
 		
-});
+}]);
 	//This directive it's necesary to use the calendar plugin in the templates.
 	myMusicUniverseApp.directive('calendar', function () {
             return {

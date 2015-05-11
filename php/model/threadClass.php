@@ -84,9 +84,9 @@ class threadClass {
 		$data = array();
 		$data["id"] = $this->getId();	
 		$data["idUser"] = $this->getIdUser();
-		$data["title"] = $this->getTitle();
+		$data["title"] = utf8_encode($this->getTitle());
 		$data["entryDate"] = $this->getEntryDate();
-		$data["content"] = $this->getContent();
+		$data["content"] = utf8_encode($this->getContent());
 		$data["totalReplies"] = $this->getTotalReplies();
 		$data["idSubforum"] = $this->getIdSubforum();
 		return $data;

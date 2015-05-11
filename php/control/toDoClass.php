@@ -60,7 +60,7 @@ class toDoClass {
 			}
 			
 			$outPutData[1]=$listThreadsOutPut;
-			$outPutData[2]=$subforumName[0]->getName();
+			$outPutData[2]=$subforumName[0]->getAll();
 			$outPutData[3]=$listNameCreators;
 
 		}
@@ -123,6 +123,25 @@ class toDoClass {
 	    $threadReply->setAll(0,$thread->idUser,$threadId,$thread->content,$thread->entryDate,1);
 
 	    $threadReply->create();
+
+		echo true;
+	
+	}
+	static public function addNewThreadReply($action, $threadReplyObj) 
+	{
+		/*$threadReplyArray = json_decode($threadReplyObj);
+		$thread = new threadClass();
+
+	    $thread->setAll($threadArray->id, $threadArray->idUser, $threadArray->idThread, $threadArray->content, $threadArray->entryDate, $threadArray->numberReply;
+	    //print_r($thread);
+	    $threadId = $thread->create();
+
+	    //$thread->findById()
+	    $threadReply = new threadReplyClass();
+	    //$threadReply ->setId(0);
+	    $threadReply->setAll(0,$thread->idUser,$threadId,$thread->content,$thread->entryDate,1);
+
+	    $threadReply->create();*/
 
 		echo true;
 	

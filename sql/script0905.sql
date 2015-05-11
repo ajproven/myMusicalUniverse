@@ -23,7 +23,7 @@ CREATE TABLE users(
 --
 INSERT INTO `users` (`id`, `username`, `password`, `name`, `surname1`, `surname2`, `type_user`, `email`, `address`, `bank_account`, `phone`, `image`) VALUES 
 (1, 'alex_admin', 'adminadmin', 'Alex', 'Sales', 'Fabregat', 0, 'alexsalesfa@gmail.com', 'C/ Font del Vidal nº3 4 2', NULL, 620666865, 'images/usersImages/alex_1.jpg'),
-(2, 'jose_admin', 'adminadmin', 'Jose', 'Pavon', 'Torres', 0, 'jpavon@gmail.com', 'C/ Sant Cristin nº35', NULL, 600006005, 'images/usersImages/user_1.jpg');
+(2, 'jose_admin', 'adminadmin', 'Jose', 'Pavon', 'Torres', 0, 'jpavon@gmail.com', 'C/ Sant Cristin nº35', NULL, 600006005, 'images/usersImages/alex_1.jpg');
 
 	
 	CREATE TABLE subforums(
@@ -40,7 +40,7 @@ CREATE TABLE thread(
 	id_user INT(5),
 	title VARCHAR(50),
 	entry_date TIMESTAMP,
-	content VARCHAR(2000),
+	content VARCHAR(4000),
 	total_replies INT(5),
 	id_subforum INT(5),
 	CONSTRAINT id_thread_pk PRIMARY KEY (id),
