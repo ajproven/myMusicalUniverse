@@ -17,6 +17,60 @@
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" type="text/css" href="css/body.css" />
 
+
+    <script type="text/javascript" src="tinymce/js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+tinymce.PluginManager.add('summon', function(editor, url) {
+    // Add a button that opens a window
+    editor.addButton('summon', {
+        text: 'Summon',
+        icon: false,
+        onclick: function() {
+            // Open window
+            editor.windowManager.open({
+                title: 'Summon user',
+                body: [
+                    {type: 'textbox', name: 'username', label: 'Username'}
+                ],
+                onsubmit: function(e) {
+                    // Insert content when the window form is submitted
+                    editor.insertContent('@'+e.data.username);
+                }
+            });
+        }
+    });
+
+    // Adds a menu item to the tools menu
+    editor.addMenuItem('summon', {
+        text: 'summon plugin',
+        context: 'tools',
+        onclick: function() {
+            // Open window with a specific url
+            editor.windowManager.open({
+                title: 'TinyMCE site',
+                url: 'http://www.tinymce.com',
+                width: 800,
+                height: 600,
+                buttons: [{
+                    text: 'Close',
+                    onclick: 'close'
+                }]
+            });
+        }
+    });
+});
+
+tinymce.init({
+    selector: "textarea",
+    plugins: [
+            "summon advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste youtube"
+            ],
+    toolbar: "summon insertfile | styleselect | bold italic | alignleft aligncenter alignright alignjustify | link image| youtube",
+    height:150
+    });
+</script>
     <!-- Angular-->
     <script src="js/frameWorks/angular/angular.min.js" type="text/javascript" xml:space="preserve"></script>
     <script src="js/frameWorks/angular/i18n/angular-locale_es-es.js" type="text/javascript" xml:space="preserve"></script>
@@ -62,15 +116,37 @@
 
   <div class="mainSection" ng-controller="myMusicalUniverseForumController as myMusicalUniverseForumCtrl" ng-init="myMusicalUniverseForumCtrl.getThreadContent()">
     <div class="container">
-      <div class="row">
+      <div class="row-centered">
         <div class="col-sm-12">
           <div id="loginDiv" ng-show="userAction==1">
             <login-form id="LoginForm"></login-form>
           </div>
             <!--subforum-->
-          <div id="threads">
-            <thread-data id="threadData"></thread-data>
-          </div>
+       <title>MMU-{{threadName}}</title>
+<form name="threadData" ng-submit="myMusicalUniverseForumCtrl.submitNewReply(idUserConnected)" novalidate>
+<h3><a href="subforum.html?f={{subforumName.getId()}}">{{subforumName.getName()}}</a></h3>
+
+<h4 id="threadHeader">{{threadName}}</h4>
+<div ng-if="userConnected">
+  <button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.newThreadReply(idUserConnected)" type="button">New Reply</button>
+</div>
+<table class="table table-bordered">
+  <tr ng-repeat="threadrep in myMusicalUniverseForumCtrl.threadContentArray">
+    <td class="col-sm-2 userZone">
+    <div class="userLink"><a href="#" >{{replyUserName[$index].getUserName()}}</a></div><br><img src="{{replyUserName[$index].getImage()}}" height="120" width="120" >
+    </td>
+    <td align="left" class="contentMessage">
+      <a href="" id="numMessage" >#{{threadrep.getNumReply()}}</a>
+      {{threadrep.getContent()}}
+      <div ng-if="userConnected" id="buttonsEd"><button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.quote(idUserConnected,threadrep.id)">QUOTE</button>
+      <button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.editMessage(threadrep.id)">EDIT</button></div>
+    </td>
+  </tr>
+</table>
+<textarea></textarea>
+<div class="col-sm-12"><input type="submit" class="btn btn-primary pull-left" value="Create new thread" /></div>
+</form>
+
         </div>
       </div>
     </div>

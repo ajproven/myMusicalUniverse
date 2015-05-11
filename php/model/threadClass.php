@@ -11,13 +11,13 @@ require_once "BDmyMusicalU.php";
 
 class threadClass {
 
-	private $id;
-    private $idUser;
-    private $title;
-    private $entryDate;
-    private $content;
-    private $totalReplies;
-    private $idSubforum;
+	public $id;
+    public $idUser;
+    public $title;
+    public $entryDate;
+    public $content;
+    public $totalReplies;
+    public $idSubforum;
     
 
     //----------Data base Values---------------------------------------
@@ -109,7 +109,7 @@ class threadClass {
 	 * @param res query to execute
 	 * @return objects collection
     */
-    private static function fromResultSetList( $res ) {
+    private function fromResultSetList( $res ) {
 		$entityList = array();
 		$i=0;
 		while ( ($row = $res->fetch_array(MYSQLI_BOTH)) != NULL ) {
@@ -128,7 +128,7 @@ class threadClass {
 	* @param res ResultSet del qual obtenir dades
 	* @return object
     */
-    private static function fromResultSet( $res ) {
+    private function fromResultSet( $res ) {
 	//We get all the values form the query
 		$id = $res[ threadClass::$colNameId];
 		$idUser = $res[ threadClass::$colNameIdUser ];
@@ -157,7 +157,7 @@ class threadClass {
 	 * @param cons query to run
 	 * @return objects collection
     */
-    public static function findByQuery( $cons ) {
+    public function findByQuery( $cons ) {
 	//Connection with the database
 		$conn = new BDmyMusicalU();
 		if (mysqli_connect_errno()) {
@@ -177,7 +177,7 @@ class threadClass {
 	 * @param none
 	 * @return object with the query results
     */
-    public static function findAll( ) {
+    public function findAll( ) {
     	$cons = "select * from `".threadClass::$tableName."`";
 		return threadClass::findByQuery( $cons );
     }
@@ -188,7 +188,7 @@ class threadClass {
 	 * @param none
 	 * @return object with the query results
     */
-    public static function findById($idSubforum) {
+    public function findById($idSubforum) {
     	
     	$cons = "select * from `".threadClass::$tableName."` where ".threadClass::$colNameIdSubforum." = '".$idSubforum."'";
 		return threadClass::findByQuery( $cons );
@@ -201,7 +201,7 @@ class threadClass {
 	 * @param none
 	 * @return object with the query results
     */
-    public static function findTitleById($id) {
+    public function findTitleById($id) {
     	
     	$cons = "select * from `".threadClass::$tableName."` where ".threadClass::$colNameId." =".$id;
 		return threadClass::findByQuery( $cons );
@@ -224,14 +224,37 @@ class threadClass {
 		//Preparing the sentence
 		$stmt = $conn->stmt_init();
 		//return "insert into ".threadClass::$tableName." (`reference`,`idDisease`,`name`,`description`,`effects`,`price`,`entryDate`) values (?, ?, ?, ?, ?, ?, ?)";
-		if ($stmt->prepare("insert into ".threadClass::$tableName." (`id`,`name`,`description`,`image`) values (?, ?, ?,?)" )) {
-			$stmt->bind_param("isss",  $this->getId(), $this->getIdUser(), $this->getDescription(),$this->getImage());
+		if ($stmt->prepare("insert into ".threadClass::$tableName." (`id`,`id_user`,`title`,`entry_date`,`content`,`total_replies`,`id_subforum`) values (?,?,?,?,?,?,?)" )) {
+			$stmt->bind_param("iisssii",  $this->getId(), $this->getIdUser(), $this->getTitle(),$this->getEntryDate(),$this->getContent(),$this->getTotalReplies(),$this->getIdSubforum());
 			//executar consulta
 			$stmt->execute();
+			$this->setId($conn->insert_id);
 			}
 			
 			if ( $conn != null ) $conn->close();
+			return $this->getId();
 	}
+
+	/**
+	 * delete()
+	 * it deletes a row from the database
+    */
+    public function delete() {
+		//Connection with the database
+		$conn = new BDmyMusicalU();
+		if (mysqli_connect_errno()) {
+    		printf("Connection with the database has failed, error: %s\n", mysqli_connect_error());
+    		exit();
+		}
+		
+		//Preparing the sentence
+		$stmt = $conn->stmt_init();
+		if ($stmt->prepare("delete from `".threadClass::$tableName."` where ".threadClass::$colNameId." = ?")) {
+			$stmt->bind_param("i", $this->getId());
+			$stmt->execute();
+		}
+		if ( $conn != null ) $conn->close();
+    }
 
 }
 ?>

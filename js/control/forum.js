@@ -46,6 +46,7 @@ $(document).ready(function (){
 					$scope.userName = userObj.username;
 					$scope.idUserConnected = userObj.id;
 					$scope.userConnected = true;
+					$scope.userType = userObj.type_user;
 				}
 			}
 			else alert("This browser does not support session variables");
@@ -277,14 +278,14 @@ $(document).ready(function (){
 		this.threadObjArray = new Array();
 		this.userObjArray = new Array();
 		this.threadContentArray = new Array();		
-		
+				
 
 		//Scope variables
 		$scope.userAction=0;
 		$scope.repeatPassword;
 		//Gets a todayDay correctly formatted.
 		$scope.todayDate = GetTodayDate();
-
+		
 		
 
 		this.getSubforums = function (){
@@ -315,6 +316,31 @@ $(document).ready(function (){
 					}				
 		}
 
+
+		this.deleteThread = function(id){
+			var idSubforum= readUrlVar()["f"];
+			var check = confirm("Do you really want to delete this thread?");
+			if(check){
+		$.ajax({
+				url:"php/control/control.php",
+				type: "POST",
+				data: "action=6&idThread="+id,
+				dataType: "json",
+				async: false,
+				success: function (response) {
+					outPutData = response;
+
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert("There has been an error while connecting to the server, try later");
+					console.log(xhr.status+"\n"+thrownError);
+				}
+			});
+
+			location.reload();
+			}
+
+		}
 		
 		this.getThreadsById = function(){
 			//variable para coger el id
@@ -357,8 +383,8 @@ $(document).ready(function (){
 				
 				for(var h=0;h<this.threadObjArray.length;h++){
 
-					if(this.userObjArray[h].getId()== this.thread.getIdUser()){
-						$scope.threadUserRelationship.push(this.userObjArray[h].getUserName());
+					if(this.userObjArray[j].getId()== this.threadObjArray[j].getIdUser()){
+						$scope.threadUserRelationship.push(this.userObjArray[j].getUserName());
 						
 						break;
 					}
@@ -386,29 +412,57 @@ $(document).ready(function (){
 		}
 		this.newThread = function(idUser,idSubforum){
 			
-			window.open("newReply.html?f="+idSubforum,"_self");
+			window.open("newThread.html?f="+idSubforum,"_self");
 		}
 
+
 		this.submitNewThread = function(idUser){
+			tinyMCE.triggerSave();
 			var idSubforum= readUrlVar()["f"];
-			alert(idUser);
-			this.threadContentArray = new Array();
-			this.threadObjArray = new Array();
-			/*$.ajax({
+			var outPutdata = new Array();
+			var lala = $('#contentText').val();
+			tinyMCE.triggerSave();
+				
+
+			this.thread.setId(0);
+			this.thread.setIdSubforum(idSubforum);
+			this.thread.setIdUser(idUser);
+			this.thread.setEntryDate(new Date());
+			this.thread.setTotalReplies(1);
+			this.thread.setContent(lala);
+			
+			this.thread = angular.copy(this.thread);
+			$.ajax({
 				url:"php/control/control.php",
 				type: "POST",
-				data: "action=5&idSubforum="+idSubforum+"&idUser="+idUser,
+				data: "action=5&threadObject="+JSON.stringify(this.thread),
 				dataType: "json",
 				async: false,
 				success: function (response) {
 					outPutData = response;
+					
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
 					alert("There has been an error while connecting to the server, try later");
 					console.log(xhr.status+"\n"+thrownError);
 				}
-			});*/	
+			});
+			
 		}
+		this.quote = function(idUserQuoter,idMessage){
+			alert("idquoter="+idUserQuoter);
+			alert("idmessage="+idMessage);
+
+		}
+		this.editMessage = function(idMessage){
+
+
+		}
+		this.newThreadReply = function(idUserConnected){
+			alert(idUserConnected);
+
+		}
+
 		this.getThreadContent = function(){
 			
 			var id= readUrlVar()["t"];

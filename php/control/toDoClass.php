@@ -107,6 +107,38 @@ class toDoClass {
 		//echo json_encode($medicine->toString());
 	}
 
+
+	static public function addNewThread($action, $threadObj) 
+	{
+		$threadArray = json_decode($threadObj);
+		$thread = new threadClass();
+
+	    $thread->setAll($threadArray->id, $threadArray->idUser, $threadArray->title, $threadArray->entryDate, $threadArray->content, $threadArray->totalReplies, $threadArray->idSubforum);
+	    //print_r($thread);
+	    $threadId = $thread->create();
+
+	    //$thread->findById()
+	    $threadReply = new threadReplyClass();
+	    //$threadReply ->setId(0);
+	    $threadReply->setAll(0,$thread->idUser,$threadId,$thread->content,$thread->entryDate,1);
+
+	    $threadReply->create();
+
+		echo true;
+	
+	}
+
+	static public function deleteThread($action, $idThread) 
+	{
+		//$threadArray = json_decode(stripslashes($threadObj));
+		//print_r($threadArray);
+		$threadToDelete = new threadClass();
+		$threadToDelete->setId($idThread);
+		$threadToDelete->delete();
+		echo true;
+	
+	}
+
 	static public function searchArticles($action)
 	{
 		

@@ -80,3 +80,10 @@ background-color: white;
 	margin-bottom: 0.25%;
 	font-weight: bold;
 }
+#removeMark{
+	float:right;
+}
+#buttonsEd{
+	float: right;
+	margin-top: 2%;
+}

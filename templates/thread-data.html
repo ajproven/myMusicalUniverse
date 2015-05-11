@@ -4,6 +4,7 @@
 <div ng-if="userConnected">
 	<button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.newThread(idUserConnected,subforumId)" type="button">New thread</button>
 </div>
+<div>
 <table class="table table-bordered">
 <tr>
 <td>Title</td>
@@ -12,7 +13,8 @@
 </tr>
 	<tr ng-repeat="threadoj in myMusicalUniverseForumCtrl.threadObjArray">
 		<td class="col-sm-8 userZone">
-		<a href="" ng-click="myMusicalUniverseForumCtrl.redirectToThreadById(threadoj.id,threadoj.idSubforum)">{{threadoj.getTitle()}}</a><br><a href="#" id="userLink">{{threadUserRelationship[$index]}}</a>
+		<a href="" ng-click="myMusicalUniverseForumCtrl.redirectToThreadById(threadoj.id,threadoj.idSubforum)">{{threadoj.getTitle()}}</a>
+		<div ng-if="userConnected && userType==0" class="glyphicon glyphicon-remove" id="removeMark" ng-click="myMusicalUniverseForumCtrl.deleteThread(threadoj.id)"></div><br><a href="#" id="userLink">{{threadUserRelationship[$index]}}</a>
 		</td>
 		<td align="left" class="contentMessage col-sm-2">
 			{{threadoj.getEntryDate()}}
@@ -22,4 +24,5 @@
 		</td>
 	</tr>
 </table>
+</div>
  </form>

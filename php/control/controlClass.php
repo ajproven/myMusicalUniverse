@@ -49,6 +49,12 @@ class controlClass {
 					case '4':
 						echo toDoClass::getThreadContent($this->params['action'], $this->params['idThread']);
 						break;
+					case '5':
+						echo toDoClass::addNewThread($this->params['action'], $this->params['threadObject']);
+						break;
+					case '6':
+						echo toDoClass::deleteThread($this->params['action'], $this->params['idThread']);
+						break;
 					case '10000':
 						echo toDoClass::checkIfExistUserName($this->params['action'], $this->params['userName']);
 						break;

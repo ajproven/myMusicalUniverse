@@ -3,7 +3,9 @@
 <h3><a href="subforum.html?f={{subforumName.getId()}}">{{subforumName.getName()}}</a></h3>
 
 <h4 id="threadHeader">{{threadName}}</h4>
-
+<div ng-if="userConnected">
+	<button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.newThreadReply(idUserConnected)" type="button">New Reply</button>
+</div>
 <table class="table table-bordered">
 	<tr ng-repeat="threadrep in myMusicalUniverseForumCtrl.threadContentArray">
 		<td class="col-sm-2 userZone">
@@ -12,8 +14,10 @@
 		<td align="left" class="contentMessage">
 			<a href="" id="numMessage" >#{{threadrep.getNumReply()}}</a>
 			{{threadrep.getContent()}}
+			<div ng-if="userConnected" id="buttonsEd"><button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.quote(idUserConnected)">QUOTE</button>
+			<button class="btn btn-default" ng-click="myMusicalUniverseForumCtrl.editMessage(idUserConnected)">EDIT</button></div>
 		</td>
 	</tr>
-
+	<textarea></textarea>
 </table>
 </form>

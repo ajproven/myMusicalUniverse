@@ -76,18 +76,18 @@ class threadReplyClass {
 		$data["id"] = $this->getId();	
 		$data["idUser"] = $this->getIdUser();
 		$data["idThread"] = $this->getIdThread();
-		$data["entryDate"] = $this->getEntryDate();
 		$data["content"] = $this->getContent();
+		$data["entryDate"] = $this->getEntryDate();
 		$data["numberReply"] = $this->getNumberReply();
 		return $data;
     }
 
-    public function setAll($id,$idUser,$idThread,$entryDate,$content,$numberReply) {
+    public function setAll($id,$idUser,$idThread,$content,$entryDate,$numberReply) {
 		$this->setId($id);
 		$this->setIdUser($idUser);
 		$this->setIdThread($idThread);
-		$this->setEntryDate($entryDate);
 		$this->setContent($content);
+		$this->setEntryDate($entryDate);
 		$this->setNumberReply($numberReply);
 		
     }
@@ -133,8 +133,8 @@ class threadReplyClass {
 		$entity->setId($id);
 		$entity->setIdUser($idUser);
 		$entity->setIdThread($idThread);
-		$entity->setEntryDate($entryDate);
 		$entity->setContent($content);
+		$entity->setEntryDate($entryDate);
 		$entity->setNumberReply($numberReply);
 		
 		return $entity;
@@ -202,8 +202,8 @@ class threadReplyClass {
 		//Preparing the sentence
 		$stmt = $conn->stmt_init();
 		//return "insert into ".threadReplyClass::$tableName." (`reference`,`idDisease`,`name`,`description`,`effects`,`price`,`entryDate`) values (?, ?, ?, ?, ?, ?, ?)";
-		if ($stmt->prepare("insert into ".threadReplyClass::$tableName." (`id`,`id_user`,`id_thread`,`entry_date`,`content`,`number_reply`) values (?, ?, ?,?,?,?)" )) {
-			$stmt->bind_param("iiisss",  $this->getId(), $this->getIdUser(),$this->getIdThread(),$this->getEntryDate(), $this->getContent(),$this->getNumberReply());
+		if ($stmt->prepare("insert into ".threadReplyClass::$tableName." (`id`,`id_user`,`id_thread`,`content`,`entry_date`,`number_reply`) values (?, ?, ?,?,?,?)" )) {
+			$stmt->bind_param("iiisss",  $this->getId(), $this->getIdUser(),$this->getIdThread(), $this->getContent(),$this->getEntryDate(),$this->getNumberReply());
 			//executar consulta
 			$stmt->execute();
 			}
