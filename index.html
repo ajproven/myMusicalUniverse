@@ -52,6 +52,9 @@
     
     <script src="js/control/generalFunctions.js" type="text/javascript" xml:space="preserve"></script>
     <script src="js/control/index.js" type="text/javascript" xml:space="preserve"></script>
+    <!--<script src="js/control/session.js" type="text/javascript" xml:space="preserve"></script>-->
+    
+
 
   </head>
   <body ng-controller="myMusicalUniverseSessionController as myMusicalUniverseSessionCtrl" ng-init="myMusicalUniverseSessionCtrl.sessionController()">
@@ -61,38 +64,25 @@
               <div class="row">
                 <div class="col-sm-8" style="background-color: white;" >
                   <div class="articlesForm">
-                      <articles-form-data id="articlesFormData"></articles-form-data>
+                      
+                      <div class="row" style="border: 1px solid black;" ng-repeat="articleObj in myMusicalUniverseMainCtrl.articlesArray">
+                          <div class="col-sm-4" style="padding:5px;">
+                              <img class="articleImg" id="articleImage{{$index}}" src="{{articleObj.getImage()}}" width="250" height="152" />
+                          </div>   
+                          <div class="col-sm-8" style="padding:5px;">  
+                                  <a href="" ng-click="myMusicalUniverseMainCtrl.redirectToArticleContent(articleObj.id)">{{articleObj.getTitle()}}</a><br/>
+                                  {{articleObj.getContent()}}
+                          </div>
+                          <div class="col-sm-12" style="padding:5px;">  
+                                  By <a href="" ng-click="myMusicalUniverseMainCtrl.redirectToUserProfile(userArticleArray[$index].id)">{{userArticleArray[$index].getUserName()}}</a><br/>
+                          </div>
+                      </div>
+
+
                   </div>
            
                 </div>
-                <div class="col-sm-4" style="background-color: red;"></div>
               </div>
-
-              <!--SlideShow with angular and bootstrap 
-
-              <div ng-controller="CarouselDemoCtrl">
-                <div style="height: 305px">
-                  <carousel interval="myInterval">
-                    <slide ng-repeat="slide in slides" active="slide.active">
-                      <img ng-src="{{slide.image}}" style="margin:auto;">
-                      <div class="carousel-caption">
-                        <h4>Slide {{$index}}</h4>
-                        <p>{{slide.text}}</p>
-                      </div>
-                    </slide>
-                  </carousel>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
-                  </div>
-                  <div class="col-md-6">
-                    Interval, in milliseconds: <input type="number" class="form-control" ng-model="myInterval">
-                    <br />Enter a negative number or 0 to stop the interval.
-                  </div>
-                </div>
-              </div>
-              <!--end slideshow-->
       </div>
     </div>   
   </body>

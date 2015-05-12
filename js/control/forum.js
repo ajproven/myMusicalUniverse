@@ -61,7 +61,7 @@ $(document).ready(function (){
 
 				//Check if credentials are correct in database
 				$.ajax({
-					  url: 'php/control/control.php',
+					  url: '../php/control/control.php',
 					  type: 'POST',
 					  async: false,
 					  data: 'action=10060&JSONData='+JSON.stringify(this.user),
@@ -117,7 +117,7 @@ $(document).ready(function (){
 			this.user = angular.copy(this.user);
 			
 			$.ajax({
-				  url: 'php/control/control.php',
+				  url: '../php/control/control.php',
 				  type: 'POST',
 				  async: false,
 				  data: 'action=10005&userObject='+JSON.stringify(this.user),
@@ -200,7 +200,7 @@ $(document).ready(function (){
 			var outPutData = new Array();
 
 			$.ajax({
-				url:"php/control/control.php",
+				url:"../php/control/control.php",
 				type: "POST",
 				data: "action=10000&userName="+this.user.getUserName(),
 				dataType: "json",
@@ -292,7 +292,7 @@ $(document).ready(function (){
 			this.subforumObjArray = new Array();
 			var outPutData = new Array();
 			$.ajax({
-				url:"php/control/control.php",
+				url:"../php/control/control.php",
 				type: "POST",
 				data: "action=2",
 				dataType: "json",
@@ -322,7 +322,7 @@ $(document).ready(function (){
 			var check = confirm("Do you really want to delete this thread?");
 			if(check){
 		$.ajax({
-				url:"php/control/control.php",
+				url:"../php/control/control.php",
 				type: "POST",
 				data: "action=6&idThread="+id,
 				dataType: "json",
@@ -350,7 +350,7 @@ $(document).ready(function (){
 			this.userObjArray = new Array();
 			var outPutData = new Array();
 			$.ajax({
-				url:"php/control/control.php",
+				url:"../php/control/control.php",
 				type: "POST",
 				data: "action=3&idSubforum="+id,
 				dataType: "json",
@@ -436,7 +436,7 @@ $(document).ready(function (){
 			
 			this.thread = angular.copy(this.thread);
 			$.ajax({
-				url:"php/control/control.php",
+				url:"../php/control/control.php",
 				type: "POST",
 				data: "action=5&threadObject="+JSON.stringify(this.thread),
 				dataType: "json",
@@ -470,51 +470,67 @@ $(document).ready(function (){
 			window.open("newReply.html?t="+id,"_self");
 		}
 
-		this.submitNewThreadReply = function(idUser){
+		this.submitNewThreadReply = function(idUser,whereIsSent){
 			tinyMCE.triggerSave();
-			var idSubforum= readUrlVar()["f"];
+			var idThread= readUrlVar()["t"];
 			var outPutdata = new Array();
+			var tinymce_editor_id = 'my_tinymce_id';
 			var lala = $('#contentText').val();
-			tinyMCE.triggerSave();
-				
+			var regex = /(<([^>]+)>)/ig;
+			var result = lala.replace(regex, "");
+			if(lala=="" || result.length<3){
 
-			this.threadReply.setId(0);
-			this.threadReply.setIdUser(idUser);
-			this.threadReply.setIdThread(idThread);
-			this.threadReply.setContent(lala);
-			this.threadReply.setEntryDate(new Date());
-			this.threadReply.setNumberReply(0);
+				alert("The message is too short. Must be minimum three characters");
+			}else{
+
+				this.threadReply.setId(0);
+				this.threadReply.setIdUser(idUser);
+				this.threadReply.setIdThread(idThread);
+				this.threadReply.setContent(lala);
+				this.threadReply.setEntryDate(new Date());
+				this.threadReply.setNumReply(0);
+				
+				this.threadReply = angular.copy(this.threadReply);
+				$.ajax({
+					url:"../php/control/control.php",
+					type: "POST",
+					data: "action=7&threadReplyObject="+JSON.stringify(this.threadReply)+"&idThread="+JSON.stringify(idThread),
+					dataType: "json",
+					async: false,
+					success: function (response) {
+						outPutData = response;
+						
+					},
+					error: function (xhr, ajaxOptions, thrownError) {
+						alert("There has been an error while connecting to the server, try later");
+						console.log(xhr.status+"\n"+thrownError);
+					}
+				});
+				alert("Response created successfully");
+				
+				if(whereIsSent==0){
+					window.location.replace("http://localhost/myMusicalUniverse/html/thread.html?t="+idThread);
+				}else{
+					//tinyMCE.activeEditor.setContent('<span>some</span> html');
+					location.reload();
+
+				}	
+			}
 			
-			this.threadReply = angular.copy(this.threadReply);
-			$.ajax({
-				url:"php/control/control.php",
-				type: "POST",
-				data: "action=7&threadReplyObject="+JSON.stringify(this.threadReply),
-				dataType: "json",
-				async: false,
-				success: function (response) {
-					outPutData = response;
-					
-				},
-				error: function (xhr, ajaxOptions, thrownError) {
-					alert("There has been an error while connecting to the server, try later");
-					console.log(xhr.status+"\n"+thrownError);
-				}
-			});
-			alert("Thread created successfully");
-			window.open("subforum.html?f="+idSubforum,"_self");
+
+			
 			
 		}
 
 		this.getThreadContent = function(){
-			
+			tinyMCE.triggerSave();
 			var id= readUrlVar()["t"];
 			this.threadContentArray = new Array();
 			this.userObjArray = new Array();
 			this.threadObjArray = new Array();
 			
 			$.ajax({
-				url:"php/control/control.php",
+				url:"../php/control/control.php",
 				type: "POST",
 				data: "action=4&idThread="+id,
 				dataType: "json",
@@ -540,8 +556,6 @@ $(document).ready(function (){
 					$scope.replyContent.push($sce.trustAsHtml(this.threadContentArray[i].getContent()));
 			}
 
-			
-
 					//for(var u=0;u<outPutData[2].length;u++){
 					this.thread = new threadObj();
 					this.thread.construct(outPutData[2].id,outPutData[2].idUser ,outPutData[2].title ,outPutData[2].entryDate ,outPutData[2].content,outPutData[2].totalReplies,outPutData[2].idSubforum);
@@ -550,15 +564,15 @@ $(document).ready(function (){
 					
 			for (var j = 0; j < outPutData[3].length; j++) {
 					this.user = new userObj();
-					this.user.construct(outPutData[3][j].id,outPutData[3][j].username,outPutData[3][j].password,outPutData[3][j].name,outPutData[3][j].surname1,outPutData[3][j].surname2,outPutData[3][j].type_user,outPutData[3][j].email,outPutData[3][j].address,outPutData[3][j].bank_account,outPutData[3][j].phone,outPutData[3][j].image);	
+					this.user.construct(outPutData[3][j].id,outPutData[3][j].username,outPutData[3][j].password,outPutData[3][j].name,outPutData[3][j].surname1,outPutData[3][j].surname2,outPutData[3][j].type_user,outPutData[3][j].email,outPutData[3][j].address,outPutData[3][j].bank_account,outPutData[3][j].phone,outPutData[3][j].image);
 					this.userObjArray.push(this.user);
-				
+				}
 				for(var h=0;h<this.threadContentArray.length;h++){
 
-					if(this.userObjArray[j].getId()== this.threadReply.getIdUser()){
+					if(this.userObjArray[h].getId()== this.threadContentArray[h].getIdUser()){
 						$scope.replyUserName.push(this.userObjArray[h]);
+
 					}
-				}
  			}		
 
  				//subforum object creation and his scope
@@ -599,7 +613,7 @@ $(document).ready(function (){
 	myMusicUniverseApp.directive("headerForm", function (){
 		return {
 		  restrict: 'E',
-		  templateUrl:"templates/header-form.html",
+		  templateUrl:"../header-form.html",
 		  controller:function(){
 			
 		  },

@@ -56,7 +56,7 @@ class controlClass {
 						echo toDoClass::deleteThread($this->params['action'], $this->params['idThread']);
 						break;
 					case '7':
-						echo toDoClass::addNewThreadReply($this->params['action'], $this->params['threadReplyObject']);
+						echo toDoClass::addNewThreadReply($this->params['action'], $this->params['threadReplyObject'],$this->params['idThread']);
 					break;
 					case '10000':
 						echo toDoClass::checkIfExistUserName($this->params['action'], $this->params['userName']);
@@ -66,6 +66,12 @@ class controlClass {
                     	break; //NEW SIGN UP METHOD
                     case '10010':
 						echo toDoClass::searchArticles($this->params['action']);
+						break;
+					case '10020':
+						echo toDoClass::searchArticleById($this->params['action'], $this->params['articleId']);
+						break;
+					case '10030':
+						echo toDoClass::getUserData($this->params['action'], $this->params['userId']);
 						break;
 					case '10060':
 						echo toDoClass::userConnection($this->params['action'], $this->params['JSONData']);

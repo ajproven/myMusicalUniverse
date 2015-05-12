@@ -206,9 +206,11 @@ class threadReplyClass {
 			$stmt->bind_param("iiisss",  $this->getId(), $this->getIdUser(),$this->getIdThread(), $this->getContent(),$this->getEntryDate(),$this->getNumberReply());
 			//executar consulta
 			$stmt->execute();
+			//$this->setNumberReply($conn->insert_numberReply);
 			}
 			
 			if ( $conn != null ) $conn->close();
+			//return $this->getNumberReply();
 	}
 
 }

@@ -61,7 +61,7 @@ function threadReplyObj ()
 	
 	this.toString = function () 
 	{
-		var threadsString = "id="+this.getId()+" idUser="+this.getIdUser()+" idThread="+this.getIdThread()+" entryDate="+this.getEntryDate()+" content= "+this.getContent()+" numReply="+this.getNumReply();
+		var threadsString = "id="+this.getId()+" idUser="+this.getIdUser()+" idThread="+this.getIdThread()+" entryDate="+this.getEntryDate()+" content= "+this.getContent()+" numReply="+this.getNumReply()+"\n";
 		
 
 		return threadsString;

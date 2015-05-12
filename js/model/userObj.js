@@ -124,7 +124,7 @@ function userObj ()
 	this.toString = function () 
 	{
 		var clientString = "id="+this.getId()+" username="+this.getUserName()+" password="+this.getPassword()+" name="+this.getName();
-		clientString += " surname1="+this.getSurname1()+" surname2="+this.getSurname2()+" type_user="+this.getTypeUser()+" email="+this.getEmail()+" address="+this.getAddress()+" bank_account="+this.getBankAccount()+" phone="+this.getPhone()+" image="+this.getImage();
+		clientString += " surname1="+this.getSurname1()+" surname2="+this.getSurname2()+" type_user="+this.getTypeUser()+" email="+this.getEmail()+" address="+this.getAddress()+" bank_account="+this.getBankAccount()+" phone="+this.getPhone()+" image="+this.getImage()+"\n";
 
 		return clientString;
 	}

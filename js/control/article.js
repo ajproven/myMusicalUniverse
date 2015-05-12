@@ -6,6 +6,7 @@ $(document).ready(function (){
 
 //Angular code
 (function (){
+
 	//Application module.
 	var myMusicUniverseApp = angular.module('myMusicalUniverseManagement', ["ng-currency", 'ui.bootstrap']);
 
@@ -18,11 +19,11 @@ $(document).ready(function (){
 
 		//Scope variables
 		$scope.userAction=0;
-		$scope.userConnected = false;
+		$scope.userConnected = false
 		$scope.repeatPassword;
 		//Gets a todayDay correctly formatted.
 		$scope.todayDate = GetTodayDate();
-		$scope.controlPage = window.location.href.split("/")[4].split(".")[0];
+		$scope.controlPage = window.location.href.split("/")[5].split(".")[0];
 
 		//$scope variables for use with modal angular bootstrap to login and new user registration.
 		$scope.showModal = false;
@@ -45,7 +46,6 @@ $(document).ready(function (){
 				{
 					$scope.userName = userObj.username;
 					$scope.userConnected = true;
-					$scope.userObj = userObj; //user connected object.
 				}
 			}
 			else alert("This browser does not support session variables");
@@ -53,14 +53,14 @@ $(document).ready(function (){
 
 		this.login = function ()
 		{
-			var outPutdata = new Array();
+			var outPutData = new Array();
 			//control error messages TODO...
 			
 				this.user = angular.copy(this.user);
 
 				//Check if credentials are correct in database
 				$.ajax({
-					  url: 'php/control/control.php',
+					  url: '../php/control/control.php',
 					  type: 'POST',
 					  async: false,
 					  data: 'action=10060&JSONData='+JSON.stringify(this.user),
@@ -74,7 +74,7 @@ $(document).ready(function (){
 							  //$('#loadDiv').css("display","none");
 					  },
 					  success: function (response) { 
-						  outPutdata = response;
+						  outPutData = response;
 
 					  },
 					  error: function (xhr, ajaxOptions, thrownError) {
@@ -82,23 +82,22 @@ $(document).ready(function (){
 					  }	
 				});
 
-				if(outPutdata[0])
+				if(outPutData[0])
 				{
 					if(typeof(Storage))
 					{
 						 //id,username, password, name, surname1, surname2, type_user, email, address, bank_account, phone, image
 						this.user = new userObj();
-						this.user.construct(outPutdata[1][0].id, outPutdata[1][0].username, outPutdata[1][0].password, outPutdata[1][0].name, outPutdata[1][0].surname1, outPutdata[1][0].surname2, outPutdata[1][0].type_user, outPutdata[1][0].email, outPutdata[1][0].address, outPutdata[1][0].bank_account, outPutdata[1][0].phone, outPutdata[1][0].image);
+						this.user.construct(outPutData[1][0].id, outPutData[1][0].username, outPutData[1][0].password, outPutData[1][0].name, outPutData[1][0].surname1, outPutData[1][0].surname2, outPutData[1][0].type_user, outPutData[1][0].email, outPutData[1][0].address, outPutData[1][0].bank_account, outPutData[1][0].phone, outPutData[1][0].image);
 						sessionStorage.setItem("userConnected",JSON.stringify(this.user));
 						//TODO...
 						$scope.userName = this.user.getUserName();
 						$scope.userConnected = true;
-						$scope.userObj = this.user; //user connected object.
 						$("#loginModal").modal("hide");
 					}
 					else alert("This browser does not support session variables");
 
-				}else showErrors(outPutdata[1]);
+				}else showErrors(outPutData[1]);
 			
 		}
 
@@ -116,7 +115,7 @@ $(document).ready(function (){
 			this.user = angular.copy(this.user);
 			
 			$.ajax({
-				  url: 'php/control/control.php',
+				  url: '../php/control/control.php',
 				  type: 'POST',
 				  async: false,
 				  data: 'action=10005&userObject='+JSON.stringify(this.user),
@@ -174,7 +173,7 @@ $(document).ready(function (){
 			var serverFileNames = new Array();
 			
 			$.ajax({
-				url : 'php/control/controlFiles.php?action=10000&userNamesArray='+JSON.stringify(userNamesArray),
+				url : '../php/control/controlFiles.php?action=10000&userNamesArray='+JSON.stringify(userNamesArray),
 		        type : 'POST',
 		        async: false,
 		        data : imageFiles,
@@ -199,7 +198,7 @@ $(document).ready(function (){
 			var outPutData = new Array();
 
 			$.ajax({
-				url:"php/control/control.php",
+				url:"../php/control/control.php",
 				type: "POST",
 				data: "action=10000&userName="+this.user.getUserName(),
 				dataType: "json",
@@ -260,10 +259,6 @@ $(document).ready(function (){
 				
 		}
 
-		this.redirectToUserProfile = function (user_id) {
-			 window.open("html/userProfile.html?p="+user_id,"_self");
-		}
-
 	});
 
 	myMusicUniverseApp.controller("myMusicalUniverseMainController", function($scope){
@@ -271,9 +266,10 @@ $(document).ready(function (){
 		//======== PROPERTIES ===========//
 		//Properties
 		this.article = new articleObj();
-		this.user = new userObj();
+		this.userObj = new userObj();
 		this.usersArray = new Array();
-		this.articlesArray = new Array();
+		this.articlesArray = new Array(); //sobra
+		this.replysArray = new Array();
 
 		//Scope variables
 		$scope.userAction=0;
@@ -282,15 +278,18 @@ $(document).ready(function (){
 		//Gets a todayDay correctly formatted.
 		$scope.todayDate = GetTodayDate();
 
+		
 		//Take all articles in the database.
 		this.accessMainData = function () {
+
+			var articleId = readUrlVar()["t"];
 
 			var outPutData = new Array();
 
 			$.ajax({
-				url:"php/control/control.php",
+				url:"../php/control/control.php",
 				type: "POST",
-				data: "action=10010",
+				data: "action=10020&articleId="+JSON.stringify(articleId),
 				dataType: "json",
 				beforeSend: function () { 
 
@@ -309,63 +308,29 @@ $(document).ready(function (){
 					console.log(xhr.status+"\n"+thrownError);
 				}
 			});
+			//alert(outPutData);
 
 			if(outPutData[0] && outPutData[2]!=undefined){
 				$scope.userArticleArray = new Array();
-				for (var i = 0; i < outPutData[1].length; i++) {
-					this.article = new articleObj();
-					this.article.construct(outPutData[1][i].id, outPutData[1][i].idUser, outPutData[1][i].title, outPutData[1][i].entry_date, outPutData[1][i].content, outPutData[1][i].theme, outPutData[1][i].image);
-					this.articlesArray.push(this.article);
-
-
-				};
 				
-				for (var j = 0; j < outPutData[2].length; j++) {
-						this.user = new userObj();
-						this.user.construct(outPutData[2][j].id, outPutData[2][j].username, outPutData[2][j].password, outPutData[2][j].name, outPutData[2][j].surname1, outPutData[2][j].surname2, outPutData[2][j].type_user, outPutData[2][j].email, outPutData[2][j].address, outPutData[2][j].bank_account, outPutData[2][j].phone, outPutData[2][j].image);
-						
-						this.usersArray.push(this.user);
-						
-						//input the users creators of articles in the $scope.userArticleArray for print in template articles-form-data.html
-						if (this.articlesArray[j].getIdUser()==this.usersArray[j].getId()){
-							$scope.userArticleArray.push(this.usersArray[j]);
-						}	
-				}	
+					this.article = new articleObj();
+					this.article.construct(outPutData[1].id, outPutData[1].idUser, outPutData[1].title, outPutData[1].entry_date, outPutData[1].content, outPutData[1].theme, outPutData[1].image);
+					$scope.articleDate = this.article.getEntryDate();
+		
+					this.userObj = new userObj();
+					this.userObj.construct(outPutData[2].id, outPutData[2].username, outPutData[2].password, outPutData[2].name, outPutData[2].surname1, outPutData[2].surname2, outPutData[2].type_user, outPutData[2].email, outPutData[2].address, outPutData[2].bank_account, outPutData[2].phone, outPutData[2].image);
+
 			} else showErrors(outPutData[1]);
-		}
-
-		this.redirectToArticleContent = function (article_id) {
-			 window.open("html/article.html?t="+article_id,"_self");
-		}
-
-		this.redirectToUserProfile = function (user_id) {
-			 window.open("html/userProfile.html?p="+user_id,"_self");
+			//alert(outPutData[2]);
 		}
 
 	});
-
-	//This directive it's necesary to use the calendar plugin in the templates.
-	myMusicUniverseApp.directive('calendar', function () {
-            return {
-                require: 'ngModel',
-                link: function (scope, el, attr, ngModel) {
-                    $(el).datepicker({
-                        dateFormat: 'yy-mm-dd',
-                        onSelect: function (dateText) {
-                            scope.$apply(function () {
-                                ngModel.$setViewValue(dateText);
-                            });
-                        }
-                    });
-                }
-            };
-     });
 
 	//This template shows all data in property this.medicinesArray of the constructor for modify.
 	myMusicUniverseApp.directive("loginForm", function (){
 		return {
 		  restrict: 'E',
-		  templateUrl:"templates/login-form.html",
+		  templateUrl:"../templates/login-form.html",
 		  controller:function(){
 			
 		  },
@@ -377,7 +342,7 @@ $(document).ready(function (){
 	myMusicUniverseApp.directive("headerForm", function (){
 		return {
 		  restrict: 'E',
-		  templateUrl:"header-form.html",
+		  templateUrl:"../header-form.html",
 		  controller:function(){
 			
 		  },
@@ -426,6 +391,12 @@ $(document).ready(function (){
 	      	}
 	    };
   	});
-
 })();
 
+function readUrlVar(){
+	var vars = {};
+	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+    vars[key] = value;
+	});
+    return vars;
+}

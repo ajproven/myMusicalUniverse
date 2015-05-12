@@ -1,18 +1,19 @@
 <div id="header">   
   <a href="index.html" id="logo">MyMusicalUniverse</a>
   <ul id="menu">
-    <li><a href="index.html"><span>Home</span></a></li>
-    <li><a href="forum.html"><span>Forums</span></a></li>
-    <li><a href="store.html"><span>Store</span></a></li>
-    <li><a href="events.html"><span>Events</span></a></li>
+    <li><a href="http://localhost/myMusicalUniverse/"><span>Home</span></a></li>
+    <li><a href="http://localhost/myMusicalUniverse/html/forum.html"><span>Forums</span></a></li>
+    <li><a href="http://localhost/myMusicalUniverse/html/store.html"><span>Store</span></a></li>
+    <li><a href="http://localhost/myMusicalUniverse/html/events.html"><span>Events</span></a></li>
   </ul>
   <ul id="menu2">
-    <li ng-if="!userConnected"><a id="loginButton" href="#" ng-click="toggleLoginModal()"><span>Login</span></a></li>
+    <li ng-if="!userConnected"><a id="loginButton" href="" ng-click="toggleLoginModal()"><span>Login</span></a></li>
    
-    <img id="userOnlineIcon" src="images/icons/user_online.png" width="15" height="15" ng-if="userConnected" /><li ng-if="userConnected"><a id="profileUserLink" href="#" ng-click=""><span>{{userName}}</span></a></li>
-    <li ng-if="userConnected"><a id="logoutButton" href="#" ng-click="myMusicalUniverseSessionCtrl.logOut()"><span>Logout</span></a></li>
+    <img id="userOnlineIcon" src="images/icons/user_online.png" width="15" height="15" ng-if="userConnected && controlPage==''"/><li ng-if="userConnected &&  controlPage==''"><a id="profileUserLink" href="" ng-click="myMusicalUniverseSessionCtrl.redirectToUserProfile(userObj.id)"><span>{{userName}}</span></a></li>
+    <img id="userOnlineIcon" src="../images/icons/user_online.png" width="15" height="15" ng-if="userConnected && controlPage!=''"/><li ng-if="userConnected &&  controlPage!=''"><a id="profileUserLink" href="" ng-click=""><span>{{userName}}</span></a></li>
+    <li ng-if="userConnected"><a id="logoutButton" href="" ng-click="myMusicalUniverseSessionCtrl.logOut()"><span>Logout</span></a></li>
     
-    <li ng-if="!userConnected"><a href="#" ng-click="toggleSignUpModal()"><span>Register</span></a></li>
+    <li ng-if="!userConnected"><a href="" ng-click="toggleSignUpModal()"><span>Register</span></a></li>
     <div class="row" id="searchButton">
       <input type="text" class="btn btn-default">
         <button class="btn btn-default" type="button" onclick="searchWeb()"><span class="glyphicon glyphicon-search"></span></button>

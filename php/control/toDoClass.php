@@ -127,21 +127,26 @@ class toDoClass {
 		echo true;
 	
 	}
-	static public function addNewThreadReply($action, $threadReplyObj) 
+	static public function addNewThreadReply($action,$threadReplyObj,$idThread) 
 	{
-		/*$threadReplyArray = json_decode($threadReplyObj);
-		$thread = new threadClass();
 
-	    $thread->setAll($threadArray->id, $threadArray->idUser, $threadArray->idThread, $threadArray->content, $threadArray->entryDate, $threadArray->numberReply;
-	    //print_r($thread);
-	    $threadId = $thread->create();
+		$threadReplyArray = json_decode($threadReplyObj);
+		$thread = json_decode($idThread);
+		$gottenId = array();
+		$gottenId = threadClass::findTitleById($idThread);
+		$gottenId[0]->getTotalReplies();
 
-	    //$thread->findById()
-	    $threadReply = new threadReplyClass();
-	    //$threadReply ->setId(0);
-	    $threadReply->setAll(0,$thread->idUser,$threadId,$thread->content,$thread->entryDate,1);
+		$threadReply = new threadReplyClass();
 
-	    $threadReply->create();*/
+	    $threadReply->setAll($threadReplyArray->id, $threadReplyArray->idUser, $threadReplyArray->idThread, $threadReplyArray->content, $threadReplyArray->entryDate, $gottenId[0]->getTotalReplies()+1);
+	    
+	    
+	    $threadReply->create();
+
+	    $threadTotalReplyUpdate = new threadClass();
+	    $threadTotalReplyUpdate->setTotalReplies($gottenId[0]->getTotalReplies()+1);
+	    $threadTotalReplyUpdate->setId($thread);
+	    $threadTotalReplyUpdate->update();
 
 		echo true;
 	
@@ -149,8 +154,6 @@ class toDoClass {
 
 	static public function deleteThread($action, $idThread) 
 	{
-		//$threadArray = json_decode(stripslashes($threadObj));
-		//print_r($threadArray);
 		$threadToDelete = new threadClass();
 		$threadToDelete->setId($idThread);
 		$threadToDelete->delete();
@@ -291,6 +294,67 @@ class toDoClass {
 		return json_encode($outPutData);
 	}	
 
+	static public function searchArticleById($action, $article_id)
+	{
+		//echo $article_id;
+		
+		$outPutData = array();
+		$errors = array();
+		$usersArray = array();
+		$articlesArray = array();
+		$outPutData[0]=true;
+		
+		$articlesArray = articleClass::findById(json_decode(stripslashes($article_id)));
+
+		
+		if(count($articlesArray)==0)
+		{
+			$outPutData[0]=false;
+			$errors="Not exist this article in database";
+			$outPutData[1]=$errors;
+		}
+		else
+		{
+				$listNameUsers = array();
+				
+				foreach ($articlesArray as $article) 
+				{
+					$articlesArray=$article->getAll();
+					
+					$usersArray = userClass::findUserById($article->getIdUser());
+					$userCreator = $usersArray[0]->getAll();
+				}
+
+				$outPutData[1]=$articlesArray;
+				$outPutData[2]=$userCreator;
+		}
+		//print_r($outPutData[1]);
+		return json_encode($outPutData);	
+	}	
+
+	static public function getUserData($action, $user_id)
+	{
+		$outPutData = array();
+		$errors = array();
+		$outPutData[0]=true;
+
+		$userArray = userClass::findUserById(json_decode(stripslashes($user_id)));
+
+		if(count($userArray)==0)
+		{
+			$outPutData[0]=false;
+			$errors="This user not exist in database";
+			$outPutData[1]=$errors;
+		}
+		else
+		{
+			foreach ( $userArray as $user)
+			{	
+				$outPutData[1] = $user->getAll();
+			}
+		}
+		return json_encode($outPutData);
+	}
 
 }
 ?>

@@ -201,9 +201,9 @@ class threadClass {
 	 * @param none
 	 * @return object with the query results
     */
-    public function findTitleById($id) {
+    public function findTitleById($idThread) {
     	
-    	$cons = "select * from `".threadClass::$tableName."` where ".threadClass::$colNameId." =".$id;
+    	$cons = "select * from `".threadClass::$tableName."` where ".threadClass::$colNameId." =".$idThread;
 		return threadClass::findByQuery( $cons );
     }
 
@@ -256,5 +256,27 @@ class threadClass {
 		if ( $conn != null ) $conn->close();
     }
 
+    /**
+     * changePassword()
+     * prepare the query to update
+     * @param nothing
+     * @return nothing
+     */
+    public function update() {
+        $conn = new BDmyMusicalU();
+        if (mysqli_connect_errno()) {
+            printf("Error en connexió amb la base de dades: %s\n", mysqli_connect_error());
+            exit();
+        }
+        //preparar sentencia actualització
+        $stmt = $conn->stmt_init();
+        if ($stmt->prepare("update `".threadClass::$tableName."` set ".threadClass::$colNameReplies." = ? where ".threadClass::$colNameId." = ?" )) {
+            $stmt->bind_param("ii", $this->getTotalReplies(),$this->getId());
+            //executar consulta
+            $stmt->execute();
+        }
+        if ( $conn != null ) $conn->close();
+
+    }
 }
 ?>
